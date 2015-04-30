@@ -10,7 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
+import org.springframework.util.Assert;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+
 import com.snowstore.log.configuer.EsbSettings;
 import com.snowstore.log.service.esb.filter.LogFilter;
 import com.snowstore.log.service.esb.filter.LogFilterChain;
@@ -49,6 +51,7 @@ public class LogConfiguration {
 	public LogFilterChain getLogFilterChain() {
 		LogFilterChainImp logFilterChain = new LogFilterChainImp();
 		ArrayList<LogFilter> filters = new ArrayList<LogFilter>();
+		Assert.notNull(jsr303Filter);
 		filters.add(jsr303Filter);
 		logFilterChain.setFilters(filters);
 		return logFilterChain;
