@@ -3,9 +3,6 @@ package com.snowstore.log.service.esb.filter.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.snowstore.log.service.esb.filter.LogFilter;
 import com.snowstore.log.service.esb.filter.LogFilterChain;
 import com.zendaimoney.hera.connector.vo.Datagram;
@@ -34,8 +31,6 @@ public class LogFilterChainImp implements LogFilterChain {
 	 */
 	private static class VirtualFilterChain implements LogFilterChain {
 
-		private final Logger logger = LoggerFactory.getLogger(getClass());
-
 		private List<? extends LogFilter> filters = new ArrayList<LogFilter>();
 
 		private int currentPosition = 0;
@@ -46,8 +41,6 @@ public class LogFilterChainImp implements LogFilterChain {
 
 		@Override
 		public void doFilter(Datagram datagram) {
-			logger.info("filtersSize=" + filters.size());
-			logger.info("currentPosition=" + currentPosition);
 			if (currentPosition == filters.size()) {
 				return;
 			} else {
