@@ -7,6 +7,7 @@ import javax.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
@@ -23,6 +24,7 @@ import com.zendaimoney.hera.connector.MessageReceiver;
 @Configuration
 @EnableConfigurationProperties(EsbSettings.class)
 @EnableMongoAuditing
+@ComponentScan("com.snowstore.log")
 public class LogConfiguration {
 
 	@Autowired
