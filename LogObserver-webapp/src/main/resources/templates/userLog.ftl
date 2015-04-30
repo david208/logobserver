@@ -20,7 +20,7 @@
 <script src="/js/bootstrap-switch.min.js"
 	type="text/javascript"></script>
 
-<title></title>
+<title>日志观察站</title>
 <script type="text/javascript">
 	var refreshTime;
 	$(function() {

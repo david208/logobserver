@@ -42,6 +42,7 @@ public class EsbService {
 			// 处理请求
 			logHandlers.get("h" + messageCode).handle(datagram.getDatagramBody(), datagram.getDatagramHeader().getSenderSystemCode());
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.warn(e.toString());
 		}
 		return datagram;
