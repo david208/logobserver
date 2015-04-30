@@ -8,7 +8,6 @@ package com.snowstore.log.entity;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.joda.time.DateTime;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;

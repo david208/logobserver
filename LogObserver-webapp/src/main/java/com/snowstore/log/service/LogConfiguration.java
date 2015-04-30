@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
-
 import com.snowstore.log.configuer.EsbSettings;
 import com.snowstore.log.service.esb.filter.LogFilter;
 import com.snowstore.log.service.esb.filter.LogFilterChain;
@@ -59,4 +58,5 @@ public class LogConfiguration {
 	public AuditorAware<Long> myAuditorProvider() {
 		return new LogAuditor();
 	}
+
 }

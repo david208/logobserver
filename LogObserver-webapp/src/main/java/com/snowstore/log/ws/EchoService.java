@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,10 @@
  * limitations under the License.
  */
 
-package com.snowstore.log;
+package com.snowstore.log.ws;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+public interface EchoService {
 
-@SpringBootApplication
-public class LogApplication {
-
-	public static void main(String[] args) throws Exception {
-		SpringApplication app = new SpringApplication(LogApplication.class);
-		app.setShowBanner(false);
-		app.setWebEnvironment(true);
-		app.run();
-	}
+	String getMessage(String message);
 
 }

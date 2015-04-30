@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2014 the original author or authors.
+ * Copyright 2012-2013 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package com.snowstore.log;
+package com.snowstore.log.ws;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
-@SpringBootApplication
-public class LogApplication {
+@Component
+public class DefaultEchoService implements EchoService {
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication app = new SpringApplication(LogApplication.class);
-		app.setShowBanner(false);
-		app.setWebEnvironment(true);
-		app.run();
+	private final String echoFormat ="Did you say \"%s\"?";
+
+	/*public DefaultEchoService(String echoFormat) {
+		this.echoFormat = (echoFormat != null) ? echoFormat : "%s";
+	}*/
+
+	@Override
+	public String getMessage(String message) {
+		return String.format(this.echoFormat, message);
 	}
 
 }

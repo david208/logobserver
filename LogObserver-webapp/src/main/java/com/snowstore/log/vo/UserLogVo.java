@@ -2,11 +2,11 @@ package com.snowstore.log.vo;
 
 public class UserLogVo extends PageFormVo {
 
-	private String type;
+	private String type = "true";
 
 	private String username;
-	
-	private Long refreshTime;
+
+	private Long refreshTime = 10000l;
 
 	public String getType() {
 		return type;

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="60" status="fatal">
+	<Properties>
+		<Property name="collectionName">logO</Property>
+		<Property name="databaseName">logdb</Property>
+		<Property name="serverPri">172.16.230.183</Property>
+		<Property name="serverSec">172.16.230.184</Property>
+		<Property name="port">30000</Property>
+		<Property name="username">logdb</Property>
+		<Property name="password">123456</Property>
+	</Properties>
+	<Appenders>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d [%t] %-5p [%c] - %m%n" />
+		</Console>
+
+		<NoSql name="MongoPri" ignoreExceptions="false">
+			<MongoDb databaseName="${databaseName}" collectionName="${collectionName}"
+				server="${serverPri}" port="${port}" username="${username}"
+				password="${password}">
+			</MongoDb>
+		</NoSql>
+		<NoSql name="MongoSec" ignoreExceptions="false">
+			<MongoDb databaseName="${databaseName}" collectionName="${collectionName}"
+				server="${serverSec}" port="${port}" username="${username}"
+				password="${password}">
+			</MongoDb>
+		</NoSql>
+		<RollingFile name="RollingFile" fileName="logs/${collectionName}.log"
+			filePattern="logs/${collectionName}-%d{MM-dd-yyyy}.log.gz"
+			ignoreExceptions="false">
+			<PatternLayout>
+				<Pattern>%d [%t] %-5p [%c] - %m%n</Pattern>
+			</PatternLayout>
+			<TimeBasedTriggeringPolicy />
+		</RollingFile>
+
+		<Failover name="Failover" primary="MongoPri">
+			<Failovers>
+				<AppenderRef ref="MongoSec" />
+			</Failovers>
+		</Failover>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.apache.log4j.xml" level="info" />
+		<!-- project default level -->
+		<logger name="com.snowstore.log" level="debug" />
+		<logger name="org.springframework" level="info" />
+
+		<!--log4jdbc -->
+		<logger name="jdbc.sqltiming" level="debug" />
+		<logger name="jdbc.sqlonly" level="OFF" />
+		<logger name="jdbc.audit" level="OFF" />
+		<logger name="jdbc.resultset" level="OFF" />
+		<logger name="jdbc.connection" level="OFF" />
+		<logger name="jdbc.resultsettable" level="OFF" />
+		<Root level="INFO">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="Failover" />
+			<AppenderRef ref="RollingFile" />
+		</Root>
+	</Loggers>
+</Configuration>
