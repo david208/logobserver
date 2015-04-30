@@ -1,6 +1,4 @@
-package com.snowstore.log.service;
-
-import java.util.ArrayList;
+package com.snowstore.log.configuer;
 
 import javax.validation.Validator;
 
@@ -11,13 +9,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
-import org.springframework.util.Assert;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.snowstore.log.configuer.EsbSettings;
-import com.snowstore.log.service.esb.filter.LogFilter;
-import com.snowstore.log.service.esb.filter.LogFilterChain;
-import com.snowstore.log.service.esb.filter.impl.LogFilterChainImp;
+import com.snowstore.log.service.LogAuditor;
 import com.zendaimoney.hera.connector.EsbConnector;
 import com.zendaimoney.hera.connector.MessageReceiver;
 
@@ -32,9 +26,6 @@ public class LogConfiguration {
 	@Autowired
 	private MessageReceiver logReceiver;
 
-	@Autowired
-	private LogFilter jsr303Filter;
-
 	@Bean
 	public Validator getValidator() {
 		return new LocalValidatorFactoryBean();
@@ -47,16 +38,6 @@ public class LogConfiguration {
 		esbConnector.setMessageReceiver(logReceiver);
 		esbConnector.setSystemCode(esbSettings.getSystemCode());
 		return esbConnector;
-	}
-
-	@Bean
-	public LogFilterChain getLogFilterChain() {
-		LogFilterChainImp logFilterChain = new LogFilterChainImp();
-		ArrayList<LogFilter> filters = new ArrayList<LogFilter>();
-		Assert.notNull(jsr303Filter);
-		filters.add(jsr303Filter);
-		logFilterChain.setFilters(filters);
-		return logFilterChain;
 	}
 
 	@Bean

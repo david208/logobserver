@@ -3,6 +3,8 @@ package com.snowstore.log.service.esb.filter.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.snowstore.log.service.esb.filter.LogFilter;
 import com.snowstore.log.service.esb.filter.LogFilterChain;
 import com.zendaimoney.hera.connector.vo.Datagram;
@@ -11,6 +13,7 @@ import com.zendaimoney.hera.connector.vo.Datagram;
  * @description: 过滤器链实现
  * @author sm
  */
+@Component
 public class LogFilterChainImp implements LogFilterChain {
 
 	private List<? extends LogFilter> filters = new ArrayList<LogFilter>();

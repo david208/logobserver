@@ -6,8 +6,8 @@
 </#if>
 	<div class="pagination clearfix">
 		<form id="pageForm" method="post">
-			<ul class="clearfix fr mr_30">
-				<li><#if page.totalPages &gt; 5 && page.number lte 4 >
+			<div class="clearfix fr mr_30">
+				<#if page.totalPages &gt; 5 && page.number lte 4 >
 						<#local pageCount = 5/>
 						<#local beginCount = 1/>
 						<#elseif page.totalPages &gt; 5 && page.number &gt; 4>
@@ -37,7 +37,7 @@
 								<a href="#" onclick="pageQuery(${i})">${i}</a>
 							</li>
 					     </#list>
-					      	
+					      	<li><a>共1页</a></li>
 					      	<#if page.number lte page.totalPages-1>
 						<#local next = "${page.number+2}"/>
 					   <#else>
@@ -47,9 +47,9 @@
 							onclick="pageQuery('${next}')">Next</a></li>
 						<li><a href="#" onclick="pageQuery('${page.totalPages}')">&raquo;</a></li>
 
-					</ul></li>
+					</ul>
 				
-			</ul>
+			</div>
 			<input type="hidden" value="1" name="page" /><input type="hidden"
 				value="10" name="rows" />
 		</form>

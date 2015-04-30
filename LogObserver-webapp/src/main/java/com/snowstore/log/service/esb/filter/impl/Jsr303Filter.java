@@ -6,7 +6,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.snowstore.log.exception.BusinessException;
@@ -18,7 +18,7 @@ import com.zendaimoney.hera.connector.vo.Datagram;
  * @description: jsr303校验过滤器
  * @author sm
  */
-@Service
+@Component
 public class Jsr303Filter implements LogFilter {
 
 	private static final String ERROR_CODE = "000001";

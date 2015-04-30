@@ -77,7 +77,7 @@
 <body>
 	<div class="container">
 
-		<div class="rightbar fl table-responsive">
+		<div class="rightbar fl table-responsive" style="overflow-x:hidden">
 
 			<table class="table table-striped  table-hover ">
 
