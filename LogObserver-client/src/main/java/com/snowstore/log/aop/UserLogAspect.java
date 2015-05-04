@@ -22,6 +22,11 @@ import com.snowstore.log.service.UserDetailDelegate;
 import com.snowstore.log.service.UserLogObservable;
 import com.snowstore.log.vo.UserInfo;
 
+/**
+ * 
+ * @description 用户日志切面
+ * @author sm
+ */
 @Aspect
 public class UserLogAspect {
 
@@ -59,9 +64,9 @@ public class UserLogAspect {
 
 	/**
 	 * 
-	 * @description 用户操作日志注解，方法设置后，围绕方法会记录结果
+	 * @description 用户操作日志通知，围绕方法会记录结果
 	 * @param jp
-	 *            切面内容
+	 *            连接点
 	 * @author sm
 	 * @throws Throwable
 	 */
@@ -92,7 +97,7 @@ public class UserLogAspect {
 	 * 
 	 * @description 获取备注
 	 * @param jp
-	 *            切面内容
+	 *            连接点
 	 * @return 备注
 	 * @author sm
 	 */
@@ -110,7 +115,7 @@ public class UserLogAspect {
 	 * 
 	 * @description 获取参数
 	 * @param jp
-	 *            切面内容
+	 *            连接点
 	 * @return 参数列表
 	 * @author sm
 	 */
