@@ -8,6 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -97,7 +98,8 @@ public class UserLogAspect {
 	private String getIp() {
 		try {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-			return request.getRemoteAddr();
+			String ip = request.getHeader("X-Real-IP");
+			return (StringUtils.isEmpty(ip)) ? request.getRemoteAddr() : ip;
 		} catch (Exception e) {
 			return "";
 		}
