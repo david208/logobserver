@@ -31,10 +31,11 @@ public class UserLogObservableImpl implements UserLogObservable {
 	 *            日志时间
 	 */
 	@Override
-	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime) {
+	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip) {
 		D100001 d100001 = new D100001();
 		d100001.setArg(arg);
 		d100001.setLogTime(logTime);
+		d100001.setIp(ip);
 		d100001.setRemark(remark);
 		d100001.setResult(result);
 		d100001.setUcFlag(userInfo.isUcFlag());

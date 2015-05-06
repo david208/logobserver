@@ -61,6 +61,7 @@
 
 	function myrefresh() {
 		window.location.reload();
+		//window.location.replace(location);
 	}
 	function refreash() {
 		timer = setInterval('myrefresh()', refreshTime);
@@ -114,6 +115,7 @@
 					<tr>
 						<th>系统号</th>
 						<th>用户名</th>
+						<th>ip</th>
 						<th>操作</th>
 						<th>记录时间</th>
 						<th>输入</th>
@@ -123,13 +125,14 @@
 				<tbody>
 				<#list resultVo.content as item>
 						<tr>
-							<td >${item.systemCode}</td>
-							<td >${item.username }</td>
-							<td class="col-md-1 col-lg-1">${item.remark}</td>
+							<td >${item.systemCode!''}</td>
+							<td >${item.username!'' }</td>
+							<td >${item.ip!'' }</td>
+							<td class="col-md-1 col-lg-1">${item.remark}!''</td>
 							<td class="redfont">${item.logTime?string('dd.MM.yyyy HH:mm:ss')!''}
 									</td>
-							<td style="word-wrap:break-word; word-break:break-all;">${item.arg}</td>
-							<td>${item.result }</td>
+							<td style="word-wrap:break-word; word-break:break-all;">${item.arg!''}</td>
+							<td>${item.result!'' }</td>
 						</tr>
 					</#list>
 				</tbody>

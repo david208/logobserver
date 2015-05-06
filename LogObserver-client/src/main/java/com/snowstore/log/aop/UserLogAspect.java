@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,6 +17,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.snowstore.log.annotation.UserLog;
 import com.snowstore.log.service.UserDetailDelegate;
@@ -30,10 +33,8 @@ import com.snowstore.log.vo.UserInfo;
 @Aspect
 public class UserLogAspect {
 
-	
 	private UserLogObservable userLogObservable;
 
-	
 	private UserDetailDelegate<UserDetails> userDetailDelegate;
 
 	public UserDetailDelegate<UserDetails> getUserDetailDelegate() {
@@ -85,12 +86,21 @@ public class UserLogAspect {
 			if (null != remark && !remark.isEmpty()) {
 				UserInfo userInfo = userDetailDelegate.getUserInfo();
 				if (null != userInfo)
-					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date());
+					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp());
 			}
 
 		}
 		return result;
 
+	}
+
+	private String getIp() {
+		try {
+			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+			return request.getRemoteAddr();
+		} catch (Exception e) {
+			return "";
+		}
 	}
 
 	/**

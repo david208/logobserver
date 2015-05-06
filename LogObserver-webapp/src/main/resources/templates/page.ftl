@@ -37,7 +37,7 @@
 								<a href="#" onclick="pageQuery(${i})">${i}</a>
 							</li>
 					     </#list>
-					      	<li><a>共1页</a></li>
+					      	<li><a>共${page.totalPages}页</a></li>
 					      	<#if page.number lte page.totalPages-1>
 						<#local next = "${page.number+2}"/>
 					   <#else>

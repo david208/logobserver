@@ -25,6 +25,7 @@ public class UserLog extends AuditableImpl {
 	@TextIndexed
 	private String jsonString;// json后字符串
 	private Date logTime;
+	private String ip;
 
 	public String getRemark() {
 		return remark;
@@ -96,6 +97,14 @@ public class UserLog extends AuditableImpl {
 
 	public void setLogTime(Date logTime) {
 		this.logTime = logTime;
+	}
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
 	}
 
 }

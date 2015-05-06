@@ -24,7 +24,6 @@ public class UserLogController {
 	@RequestMapping
 	public String userLog(UserLogVo formVo, Model model) {
 		Page<UserLog> page = userLogService.findPage(formVo);
-		page.getTotalPages();
 		model.addAttribute("resultVo", page);
 
 		model.addAttribute("type", formVo.getType());
