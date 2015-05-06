@@ -128,7 +128,7 @@
 							<td >${item.systemCode!''}</td>
 							<td >${item.username!'' }</td>
 							<td >${item.ip!'' }</td>
-							<td class="col-md-1 col-lg-1">${item.remark}!''</td>
+							<td class="col-md-1 col-lg-1">${item.remark!''}</td>
 							<td class="redfont">${item.logTime?string('dd.MM.yyyy HH:mm:ss')!''}
 									</td>
 							<td style="word-wrap:break-word; word-break:break-all;">${item.arg!''}</td>
