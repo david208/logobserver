@@ -2,9 +2,13 @@ package com.snowstore.log.service.impl;
 
 import java.util.Date;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.snowstore.hera.connector.vo.logObserver.D100001;
+import com.snowstore.hera.connector.vo.logObserver.D100001.File;
 import com.snowstore.log.builder.DatagramBuilder;
 import com.snowstore.log.service.UserLogObservable;
+import com.snowstore.log.vo.FileInfo;
 import com.snowstore.log.vo.UserInfo;
 import com.zendaimoney.hera.connector.EsbConnector;
 import com.zendaimoney.hera.connector.vo.Datagram;
@@ -31,7 +35,7 @@ public class UserLogObservableImpl implements UserLogObservable {
 	 *            日志时间
 	 */
 	@Override
-	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip) {
+	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo) {
 		D100001 d100001 = new D100001();
 		d100001.setArg(arg);
 		d100001.setLogTime(logTime);
@@ -41,6 +45,13 @@ public class UserLogObservableImpl implements UserLogObservable {
 		d100001.setUcFlag(userInfo.isUcFlag());
 		d100001.setUserId(userInfo.getUserId());
 		d100001.setUsername(userInfo.getUserName());
+		if (null != fileInfo) {
+			File file = new File();
+			file.setFileContent(Base64.encodeBase64String(fileInfo.getContent()));
+			file.setFileName(fileInfo.getFileName());
+			file.setFileType(fileInfo.getContentType());
+			d100001.setFile(file);
+		}
 		Datagram datagram = logDatagramBuilder.createDatagram(d100001, "100001");
 		sendMessageNoAcept(datagram);
 	}

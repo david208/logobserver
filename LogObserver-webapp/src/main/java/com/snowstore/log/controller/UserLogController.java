@@ -1,11 +1,19 @@
 package com.snowstore.log.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.snowstore.log.entity.FileInfo;
 import com.snowstore.log.entity.UserLog;
 import com.snowstore.log.service.UserLogService;
 import com.snowstore.log.vo.UserLogVo;
@@ -20,7 +28,6 @@ public class UserLogController {
 	@Autowired
 	private BroadcastService broadcastService;
 
-
 	@RequestMapping
 	public String userLog(UserLogVo formVo, Model model) {
 		Page<UserLog> page = userLogService.findPage(formVo);
@@ -29,7 +36,7 @@ public class UserLogController {
 		model.addAttribute("type", formVo.getType());
 		model.addAttribute("username", formVo.getUsername());
 		model.addAttribute("refreshTime", formVo.getRefreshTime());
-		/*broadcastService.broadcast("1");*/
+		/* broadcastService.broadcast("1"); */
 		return "/userLog";
 	}
 
@@ -37,6 +44,18 @@ public class UserLogController {
 	public String ws() {
 
 		return "ws";
+	}
+
+	@RequestMapping(value = "/file/{id}")
+	public void file(@PathVariable String id, HttpServletResponse httpServletResponse) throws IOException {
+		httpServletResponse.setContentType("APPLICATION/OCTET-STREAM");
+		OutputStream outputStream = new BufferedOutputStream(httpServletResponse.getOutputStream());
+		FileInfo fileInfo = userLogService.getFile(id);
+		httpServletResponse.setHeader("Content-Disposition", "attachment; filename=" + new String(fileInfo.getFileName().getBytes("gb2312"), "iso-8859-1"));
+		outputStream.write(fileInfo.getContent());
+		outputStream.flush();
+		outputStream.close();
+
 	}
 
 }

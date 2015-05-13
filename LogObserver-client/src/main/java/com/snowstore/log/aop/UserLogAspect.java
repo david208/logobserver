@@ -1,5 +1,6 @@
 package com.snowstore.log.aop;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
@@ -8,6 +9,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,10 +22,12 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.snowstore.log.annotation.UserLog;
 import com.snowstore.log.service.UserDetailDelegate;
 import com.snowstore.log.service.UserLogObservable;
+import com.snowstore.log.vo.FileInfo;
 import com.snowstore.log.vo.UserInfo;
 
 /**
@@ -82,12 +86,16 @@ public class UserLogAspect {
 			throw e;
 		} finally {
 			String remark = getRemark(jp);
+			FileInfo fileInfo = null;
+
+			if (getFileFlag(jp))
+				fileInfo = getFileInfo(jp);
 			String args = getArgs(jp);
 
 			if (null != remark && !remark.isEmpty()) {
 				UserInfo userInfo = userDetailDelegate.getUserInfo();
 				if (null != userInfo)
-					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp());
+					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo);
 			}
 
 		}
@@ -114,13 +122,56 @@ public class UserLogAspect {
 	 * @author sm
 	 */
 	public String getRemark(JoinPoint jp) {
-		MethodSignature signature = (MethodSignature) jp.getSignature();
-		Method method = signature.getMethod();
-		UserLog userLog = method.getAnnotation(UserLog.class);
+		UserLog userLog = getAnnotation(jp);
 		if (userLog != null) {
 			return userLog.remark();
 		}
 		return "";
+	}
+
+	/**
+	 * 
+	 * @description 获取文件标志
+	 * @param jp
+	 *            连接点
+	 * @return 备注
+	 * @author sm
+	 */
+	public boolean getFileFlag(JoinPoint jp) {
+		UserLog userLog = getAnnotation(jp);
+		if (userLog != null) {
+			return userLog.fileFlag();
+		}
+		return false;
+	}
+
+	private UserLog getAnnotation(JoinPoint jp) {
+		MethodSignature signature = (MethodSignature) jp.getSignature();
+		Method method = signature.getMethod();
+		UserLog userLog = method.getAnnotation(UserLog.class);
+		return userLog;
+	}
+
+	public FileInfo getFileInfo(JoinPoint jp) {
+		Object[] argValues = jp.getArgs();
+		FileInfo fileInfo = null;
+		for (int i = 0; i < argValues.length; i++) {
+			if (null == argValues[i] || argValues[i] instanceof MultipartFile) {
+				try {
+					MultipartFile file = (MultipartFile) argValues[i];
+
+					byte[] data = IOUtils.toByteArray(file.getInputStream());
+					String fileName = file.getOriginalFilename();
+					String contentType = file.getContentType();
+					fileInfo = new FileInfo(data, fileName, contentType);
+					break;
+				} catch (IOException e) {
+					return null;
+				}
+			}
+		}
+		return fileInfo;
+
 	}
 
 	/**
@@ -137,7 +188,7 @@ public class UserLogAspect {
 		String[] argNames = signature.getParameterNames();
 		StringBuilder args = new StringBuilder();
 		for (int i = 0; i < argValues.length; i++) {
-			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse)
+			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile)
 				continue;
 			if (argValues[i] instanceof Object[])
 				args.append(argNames[i] + ":" + Arrays.toString((Object[]) argValues[i]).toString());

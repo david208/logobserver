@@ -55,6 +55,12 @@
 		$("input[name=refreshTime]").click(function() {
 			$("#queryFrom").submit();
 		});
+		
+		$(".moreBtn").click(function(){
+		    $(this).parent().parent().next().toggleClass("hidden");
+		    $(this).parent().parent().next().next().toggleClass("hidden");
+		   $('input[name="my-checkbox"]').bootstrapSwitch('state', false, false);
+		});
 
 	})
 	var timer;
@@ -70,7 +76,9 @@
 		clearInterval(timer);
 	}
 </script>
+<style>
 
+</style>
 </head>
 <body>
 	<div class="container">
@@ -118,25 +126,46 @@
 						<th>ip</th>
 						<th>操作</th>
 						<th>记录时间</th>
-						<th>输入</th>
-						<th>输出</th>
+						<th>操作</th>						
 					</tr>
 				</thead>
 				<tbody>
 				<#list resultVo.content as item>
+				      <div>
 						<tr>
 							<td >${item.systemCode!''}</td>
 							<td >${item.username!'' }</td>
 							<td >${item.ip!'' }</td>
-							<td class="col-md-1 col-lg-1">${item.remark!''}</td>
-							<td class="redfont">${item.logTime?string('dd.MM.yyyy HH:mm:ss')!''}
+							<td >${item.remark!''}</td>
+							<td >${item.logTime?string('dd.MM.yyyy HH:mm:ss')!''}
 									</td>
-							<td style="word-wrap:break-word; word-break:break-all;">${item.arg!''}</td>
-							<td>${item.result!'' }</td>
+							<td ><a class="btn btn-success moreBtn" href="javascript:void(0)"  role="button" >更多</a>
+							<#if (item.fileInfo.id)?? >
+							<a class="btn btn-info" href="/file/${(item.fileInfo.id)!''}" role="button" >下载文件</a>
+							
+							</#if></td>
+						
+							
 						</tr>
+						
+						
+						
+						<tr  class="hidden success">
+						<td >输入</td>
+						<td  style="word-break : break-all;" colspan=5 >${item.arg!''}</td>
+						</tr>
+						
+						<tr class="hidden success">
+						<td >输出</td>
+						<td  style="word-break : break-all;" colspan=5>${item.result!''}</td>
+						</tr>
+						
+						
+						</div>
 					</#list>
 				</tbody>
 			</table>
+			
 			<div class="clearfix">
 			<@page.greet page=resultVo  queryForm="queryFrom" size=10/>
 				

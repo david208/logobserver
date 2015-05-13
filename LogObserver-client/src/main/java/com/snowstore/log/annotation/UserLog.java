@@ -18,4 +18,6 @@ public @interface UserLog {
 
 	String remark();
 
+	boolean fileFlag() default false;
+
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.index.TextIndexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
@@ -26,6 +27,8 @@ public class UserLog extends AuditableImpl {
 	private String jsonString;// json后字符串
 	private Date logTime;
 	private String ip;
+	@DBRef(lazy = true)
+	private FileInfo fileInfo;
 
 	public String getRemark() {
 		return remark;
@@ -105,6 +108,14 @@ public class UserLog extends AuditableImpl {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public FileInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(FileInfo fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 
 }

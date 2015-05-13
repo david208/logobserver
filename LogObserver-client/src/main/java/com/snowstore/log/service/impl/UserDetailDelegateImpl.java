@@ -61,7 +61,7 @@ public class UserDetailDelegateImpl<T extends UserDetails> implements UserDetail
 			userInfo.setUcFlag(false);
 			userInfo.setUserName(user.getUsername());
 			try {
-				Method method = user.getClass().getDeclaredMethod("getId");
+				Method method = user.getClass().getMethod("getId");
 				method.setAccessible(true);
 				userInfo.setUserId(Long.valueOf(method.invoke(user).toString()));
 			} catch (Exception e) {
