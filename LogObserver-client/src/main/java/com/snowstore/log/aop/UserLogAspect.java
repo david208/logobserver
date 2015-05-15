@@ -85,17 +85,21 @@ public class UserLogAspect {
 			result = e;
 			throw e;
 		} finally {
-			String remark = getRemark(jp);
-			FileInfo fileInfo = null;
+			try {
+				String remark = getRemark(jp);
+				FileInfo fileInfo = null;
 
-			if (getFileFlag(jp))
-				fileInfo = getFileInfo(jp);
-			String args = getArgs(jp);
+				if (getFileFlag(jp))
+					fileInfo = getFileInfo(jp);
+				String args = getArgs(jp);
 
-			if (null != remark && !remark.isEmpty()) {
-				UserInfo userInfo = userDetailDelegate.getUserInfo();
-				if (null != userInfo)
-					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo);
+				if (null != remark && !remark.isEmpty()) {
+					UserInfo userInfo = userDetailDelegate.getUserInfo();
+					if (null != userInfo)
+						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo);
+				}
+			} finally {
+
 			}
 
 		}
