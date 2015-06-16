@@ -66,9 +66,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-jetty</artifactId>
 		</dependency>
-		<!-- <dependency> <groupId>org.apache.tomcat.embed</groupId> <artifactId>tomcat-embed-jasper</artifactId> 
-			<scope>provided</scope> </dependency> <dependency> <groupId>javax.servlet</groupId> 
-			<artifactId>jstl</artifactId> </dependency> -->
 		<dependency>
 			<groupId>com.zendaimoney.hera</groupId>
 			<artifactId>hera-connector</artifactId>
@@ -236,7 +233,10 @@
 			<exclusions> <exclusion> <groupId>com.zendaimoney.hera</groupId> <artifactId>hera-connector</artifactId> 
 			</exclusion> <exclusion> <groupId>org.apache.logging.log4j</groupId> <artifactId>log4j</artifactId> 
 			</exclusion> </exclusions> </dependency> -->
-
+		<dependency>
+			<groupId>com.snowstore.terra</groupId>
+			<artifactId>terra-client</artifactId>
+		</dependency>
 
 	</dependencies>
 	<build>
