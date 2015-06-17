@@ -4,9 +4,11 @@ public class UserLogVo extends PageFormVo {
 
 	private String type = "true";
 
-	private String username;
+	private String keyword;
 
 	private Long refreshTime = 10000l;
+	
+	private String systemCode;
 
 	public String getType() {
 		return type;
@@ -16,12 +18,12 @@ public class UserLogVo extends PageFormVo {
 		this.type = type;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getKeyword() {
+		return keyword;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
 	}
 
 	public Long getRefreshTime() {
@@ -30,5 +32,13 @@ public class UserLogVo extends PageFormVo {
 
 	public void setRefreshTime(Long refreshTime) {
 		this.refreshTime = refreshTime;
+	}
+
+	public String getSystemCode() {
+		return systemCode;
+	}
+
+	public void setSystemCode(String systemCode) {
+		this.systemCode = systemCode;
 	}
 }

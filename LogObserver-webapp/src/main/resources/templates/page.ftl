@@ -69,6 +69,7 @@
 			form.find("input[name=page]").val(pageNum);
 			if ('${queryForm}' != '') {
 				$('#${queryForm} input').clone().hide().appendTo(form);
+				$('#${queryForm} select').clone().hide().appendTo(form);
 			}
 			if (window.pageCallBack) {
 				window.pageCallBack();

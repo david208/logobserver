@@ -8,7 +8,7 @@ import com.snowstore.log.entity.UserLog;
 public interface UserLogRepository extends MongoRepository<UserLog, String> {
 
 	Page<UserLog> findByUsername(String username, Pageable pageable);
-	
-	Page<UserLog> findByJsonStringLike(String jsonString, Pageable pageable);
+
+	Page<UserLog> findByJsonStringLikeAndSystemCode(String jsonString, String systemCode, Pageable pageable);
 
 }

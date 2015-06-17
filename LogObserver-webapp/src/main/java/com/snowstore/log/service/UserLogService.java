@@ -2,22 +2,31 @@ package com.snowstore.log.service;
 
 import java.io.IOException;
 import java.io.InputStream;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.activemq.protobuf.BufferInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.mapreduce.GroupBy;
+import org.springframework.data.mongodb.core.mapreduce.GroupByResults;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.gridfs.GridFsCriteria;
 import org.springframework.data.mongodb.gridfs.GridFsOperations;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
 import com.snowstore.hera.connector.vo.logObserver.D100001;
 import com.snowstore.log.entity.FileInfo;
 import com.snowstore.log.entity.UserLog;
@@ -33,8 +42,12 @@ public class UserLogService {
 
 	private static final Gson gson = new Gson();
 
+	public final static String ANONYMOUS_USER = "anonymousUser";
+
 	@Autowired
 	private UserLogRepository userLogRepository;
+	@Autowired
+	private MongoTemplate mongoTemplate;
 
 	@Autowired
 	private GridFsOperations operations;
@@ -42,10 +55,10 @@ public class UserLogService {
 	private FileInfoRepository fileInfoRepository;
 
 	public Page<UserLog> findPage(final UserLogVo formVo) {
-		if (StringUtils.isEmpty(formVo.getUsername()))
+		if (StringUtils.isEmpty(formVo.getKeyword()) && StringUtils.isEmpty(formVo.getSystemCode()))
 			return userLogRepository.findAll(formVo);
 		else
-			return userLogRepository.findByJsonStringLike(formVo.getUsername(), formVo);
+			return userLogRepository.findByJsonStringLikeAndSystemCode(formVo.getKeyword(), formVo.getSystemCode(), formVo);
 
 	}
 
@@ -107,4 +120,32 @@ public class UserLogService {
 		}
 	}
 
+	public String getUsername() {
+		Authentication currentuser = getAuthentication();
+		if (checkUser(currentuser) && currentuser.getPrincipal() instanceof LdapUserDetailsImpl)
+			return ((LdapUserDetailsImpl) currentuser.getPrincipal()).getUsername();
+		return "";
+	}
+
+	/**
+	 * @author SM
+	 * @description 检查客户是否存在且非匿名
+	 */
+	private boolean checkUser(Authentication currentuser) {
+		return null != currentuser && !currentuser.getPrincipal().equals(ANONYMOUS_USER);
+	}
+
+	private Authentication getAuthentication() {
+		return SecurityContextHolder.getContext().getAuthentication();
+
+	}
+
+	public List<String> findBySystemCodeGroup() {
+		GroupByResults<UserLog> results = mongoTemplate.group("userLog", GroupBy.key("systemCode").initialDocument("{ count: 0 }").reduceFunction("function(doc, prev) { prev.count += 1 }"), UserLog.class);
+		List<String> list = new ArrayList<String>();
+		for (Object basicDBObject : ((BasicDBList) results.getRawResults().get("retval")).toArray()) {
+			list.add(((BasicDBObject) basicDBObject).getString("systemCode"));
+		}
+		return list;
+	}
 }

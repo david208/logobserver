@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,19 @@ public class UserLogController {
 	private BroadcastService broadcastService;
 
 	@RequestMapping
-	public String userLog(UserLogVo formVo, Model model) {
+	public String userLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
 		Page<UserLog> page = userLogService.findPage(formVo);
 		model.addAttribute("resultVo", page);
 
 		model.addAttribute("type", formVo.getType());
-		model.addAttribute("username", formVo.getUsername());
+		model.addAttribute("keyword", formVo.getKeyword());
 		model.addAttribute("refreshTime", formVo.getRefreshTime());
+		model.addAttribute("systemCode", formVo.getSystemCode());
+		if (null == httpServletRequest.getSession().getAttribute("uname"))
+			httpServletRequest.getSession().setAttribute("uname", userLogService.getUsername());
+		if (null == httpServletRequest.getSession().getAttribute("systemCodeList"))
+			httpServletRequest.getSession().setAttribute("systemCodeList", userLogService.findBySystemCodeGroup());
+
 		/* broadcastService.broadcast("1"); */
 		return "/userLog";
 	}
@@ -44,6 +51,11 @@ public class UserLogController {
 	public String ws() {
 
 		return "ws";
+	}
+
+	@RequestMapping("/login")
+	public String login() {
+		return "/login";
 	}
 
 	@RequestMapping(value = "/file/{id}")
