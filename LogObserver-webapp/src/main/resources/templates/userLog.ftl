@@ -89,8 +89,8 @@
 
         <div class="rightbar fl table-responsive" style="overflow-x:hidden">
             <div align="right">
-                <a href="#">
-                    <span class="glyphicon glyphicon-user"></span>${uname!""},您好</a>
+                
+                    <span class="glyphicon glyphicon-user"></span>${uname!""},您好
                 <a href="/logout" class="btn">
                     <span class="glyphicon glyphicon-off "></span>退出</a>
 
@@ -155,10 +155,10 @@
                         <div>
                             <tr>
                                 <td>${item.systemCode!''}</td>
-                                <td>${item.keyword!'' }</td>
+                                <td>${item.username!'' }</td>
                                 <td>${item.ip!'' }</td>
                                 <td>${item.remark!''}</td>
-                                <td>${item.logTime?string('dd.MM.yyyy HH:mm:ss')!''}
+                                <td>${item.logTime?string('yyyy-MM-dd HH:mm:ss')!''}
                                 </td>
                                 <td><a class="btn btn-success moreBtn" href="javascript:void(0)" role="button">更多</a>
                                     <#if (item.fileInfo.id)??>
