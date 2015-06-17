@@ -121,7 +121,6 @@
                                         <#list systemCodeList as item>
 
                                             <#if systemCode?? && systemCode==item>
-                                                <option value="${item}">${item}</option>
                                                 <option selected value="${item}">${item}</option>
                                                 <#else>
                                                     <option value="${item}">${item}</option>
