@@ -55,10 +55,13 @@ public class UserLogService {
 	private FileInfoRepository fileInfoRepository;
 
 	public Page<UserLog> findPage(final UserLogVo formVo) {
-		if (StringUtils.isEmpty(formVo.getKeyword()) && StringUtils.isEmpty(formVo.getSystemCode()))
-			return userLogRepository.findAll(formVo);
-		else
-			return userLogRepository.findByJsonStringLikeAndSystemCode(formVo.getKeyword(), formVo.getSystemCode(), formVo);
+		if (StringUtils.isEmpty(formVo.getSystemCode())) {
+			if (StringUtils.isEmpty(formVo.getKeyword()))
+				return userLogRepository.findAll(formVo);
+			else
+				return userLogRepository.findByJsonStringLike(formVo.getKeyword(), formVo);
+		}
+		return userLogRepository.findByJsonStringLikeAndSystemCode(formVo.getKeyword(), formVo.getSystemCode(), formVo);
 
 	}
 

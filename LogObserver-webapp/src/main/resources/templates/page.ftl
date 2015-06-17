@@ -1,5 +1,5 @@
 <#macro greet page  queryForm size>
-
+<#setting number_format="#">
 
 <#if size?? >
 <#local size = "10"/>
@@ -37,15 +37,15 @@
 								<a href="#" onclick="pageQuery(${i})">${i}</a>
 							</li>
 					     </#list>
-					      	<li><a>共${page.totalPages}页</a></li>
-					      	<#if page.number lte page.totalPages-1>
-						<#local next = "${page.number+2}"/>
+					      	<li><a>共${page.totalPages?number}页</a></li>
+					      	<#if page.number lt page.totalPages-1>
+						<#local next = "${page.number+2?number}"/>
 					   <#else>
 						<#local next = "${page.number+1?number}"/>
 						</#if> 
 						<li><a href="#"
 							onclick="pageQuery('${next}')">Next</a></li>
-						<li><a href="#" onclick="pageQuery('${page.totalPages}')">&raquo;</a></li>
+						<li><a href="#" onclick="pageQuery('${page.totalPages?number}')">&raquo;</a></li>
 
 					</ul>
 				
