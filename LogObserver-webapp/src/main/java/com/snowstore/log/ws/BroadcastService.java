@@ -16,11 +16,11 @@ public class BroadcastService {
 
 	private final Lock lock = new ReentrantLock();
 
-	private final ConcurrentHashMap<Integer, WebSocketSession> sessions = new ConcurrentHashMap<Integer, WebSocketSession>();
+	private final ConcurrentHashMap<String, WebSocketSession> sessions = new ConcurrentHashMap<String, WebSocketSession>();
 
 	public void addSession(WebSocketSession session) {
 		lock.lock();
-		sessions.put(Integer.valueOf(session.getId()), session);
+		sessions.put(session.getId(), session);
 		lock.unlock();
 	}
 
@@ -46,7 +46,7 @@ public class BroadcastService {
 
 	public void removeSession(WebSocketSession session) {
 		lock.lock();
-		sessions.remove(Integer.valueOf(session.getId()));
+		sessions.remove(session.getId());
 		lock.unlock();
 	}
 

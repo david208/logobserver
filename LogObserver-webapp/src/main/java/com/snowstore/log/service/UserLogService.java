@@ -43,6 +43,7 @@ public class UserLogService {
 	private static final Gson gson = new Gson();
 
 	public final static String ANONYMOUS_USER = "anonymousUser";
+	
 
 	@Autowired
 	private UserLogRepository userLogRepository;
