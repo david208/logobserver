@@ -18,7 +18,7 @@ package com.snowstore.log.ws;
 
 import org.springframework.stereotype.Component;
 
-//@Component
+@Component
 public class DefaultEchoService implements EchoService {
 
 	private final String echoFormat ="Did you say \"%s\"?";
