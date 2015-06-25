@@ -11,8 +11,8 @@ import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-import com.snowstore.hera.connector.monitor.impl.ZooL;
-import com.snowstore.log.service.LogAuditor;
+/*import com.snowstore.hera.connector.monitor.impl.ZooL;
+*/import com.snowstore.log.service.LogAuditor;
 import com.snowstore.log.service.LogNofityObserver;
 import com.zendaimoney.hera.connector.EsbConnector;
 import com.zendaimoney.hera.connector.MessageReceiver;
@@ -35,12 +35,12 @@ public class LogConfiguration {
 		return new LocalValidatorFactoryBean();
 	}
 
-	@Bean
+	/*@Bean
 	public ZooL getZooL() {
 		ZooL zooL =new ZooL();
 		zooL.setNofityObserver(logNofityObserver);
 		return zooL;
-	}
+	}*/
 
 	@Bean
 	public EsbConnector getEsbConnector() {
