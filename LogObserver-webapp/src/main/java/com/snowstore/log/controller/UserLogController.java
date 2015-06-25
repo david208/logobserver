@@ -3,6 +3,9 @@ package com.snowstore.log.controller;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,12 +16,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.snowstore.hera.connector.monitor.impl.MonitorInfo;
+import com.snowstore.hera.connector.monitor.impl.ZooL;
 import com.snowstore.log.entity.FileInfo;
 import com.snowstore.log.entity.UserLog;
 import com.snowstore.log.service.UserLogService;
+import com.snowstore.log.vo.TreeData;
 import com.snowstore.log.vo.UserLogVo;
-import com.snowstore.log.ws.BroadcastService;
+import com.snowstore.log.vo.TreeData.NodeData;
 
 @Controller
 @RequestMapping
@@ -26,8 +33,7 @@ public class UserLogController {
 
 	@Autowired
 	private UserLogService userLogService;
-	@Autowired
-	private BroadcastService broadcastService;
+
 
 	@RequestMapping
 	public String userLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
@@ -42,16 +48,9 @@ public class UserLogController {
 			httpServletRequest.getSession().setAttribute("uname", userLogService.getUsername());
 		if (null == httpServletRequest.getSession().getAttribute("systemCodeList"))
 			httpServletRequest.getSession().setAttribute("systemCodeList", userLogService.findBySystemCodeGroup());
-
-		/* broadcastService.broadcast("1"); */
 		return "/userLog";
 	}
 
-	@RequestMapping(value = "/ws")
-	public String ws() {
-
-		return "ws";
-	}
 
 	@RequestMapping("/login")
 	public String login() {
@@ -68,6 +67,42 @@ public class UserLogController {
 		outputStream.flush();
 		outputStream.close();
 
+	}
+
+	@Autowired
+	private ZooL zooL;
+
+	@RequestMapping("/monitor")
+	public String monitor() {
+		return "/monitor";
+	}
+
+	@RequestMapping("/getData")
+	@ResponseBody
+	public TreeData getData() {
+		Map<String, Map<String, MonitorInfo>> nodeMap = zooL.getZooListener().getNodeMap();
+		TreeData treeData = new TreeData();
+		Iterator<String> iterator = nodeMap.keySet().iterator();
+		while (iterator.hasNext()) {
+			String text = iterator.next();
+			NodeData nodeData = new NodeData();
+			nodeData.setText(text);
+			Map<String, MonitorInfo> map = nodeMap.get(text);
+			for (String nodeName : map.keySet()) {
+				NodeData nodeData1 = new NodeData();
+				MonitorInfo info = map.get(nodeName);
+				nodeData1.setText(nodeName);
+				String[] a = { info.getIp(), info.getAddress() };
+				nodeData1.setTags(a);
+				if (nodeData.getNodes() == null) {
+					ArrayList<NodeData> nodes = new ArrayList<NodeData>();
+					nodeData.setNodes(nodes);
+				}
+				nodeData.getNodes().add(nodeData1);
+			}
+			treeData.getNodeDatas().add(nodeData);
+		}
+		return treeData;
 	}
 
 }
