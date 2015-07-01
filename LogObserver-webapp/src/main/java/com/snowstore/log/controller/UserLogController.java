@@ -34,7 +34,6 @@ public class UserLogController {
 	@Autowired
 	private UserLogService userLogService;
 
-
 	@RequestMapping
 	public String userLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
 		Page<UserLog> page = userLogService.findPage(formVo);
@@ -50,7 +49,6 @@ public class UserLogController {
 			httpServletRequest.getSession().setAttribute("systemCodeList", userLogService.findBySystemCodeGroup());
 		return "/userLog";
 	}
-
 
 	@RequestMapping("/login")
 	public String login() {
@@ -69,7 +67,7 @@ public class UserLogController {
 
 	}
 
-	@Autowired
+	@Autowired(required = false)
 	private ZooL zooL;
 
 	@RequestMapping("/monitor")
