@@ -4,10 +4,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.apache.activemq.protobuf.BufferInputStream;
 import org.apache.commons.lang3.StringUtils;
 import org.dozer.DozerBeanMapper;
 import org.dozer.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -30,8 +33,11 @@ import com.mongodb.BasicDBObject;
 import com.snowstore.hera.connector.vo.logObserver.D100001;
 import com.snowstore.log.entity.FileInfo;
 import com.snowstore.log.entity.UserLog;
+import com.snowstore.log.entity.UserLogEs;
 import com.snowstore.log.repository.FileInfoRepository;
+import com.snowstore.log.repository.UserLogEsRepository;
 import com.snowstore.log.repository.UserLogRepository;
+import com.snowstore.log.vo.UserLogEsVo;
 import com.snowstore.log.vo.UserLogVo;
 
 @Service
@@ -41,9 +47,9 @@ public class UserLogService {
 	private static final Mapper mapper = new DozerBeanMapper();
 
 	private static final Gson gson = new Gson();
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public final static String ANONYMOUS_USER = "anonymousUser";
-	
 
 	@Autowired
 	private UserLogRepository userLogRepository;
@@ -54,6 +60,8 @@ public class UserLogService {
 	private GridFsOperations operations;
 	@Autowired
 	private FileInfoRepository fileInfoRepository;
+	@Autowired
+	private UserLogEsRepository userLogEsRepository;
 
 	public Page<UserLog> findPage(final UserLogVo formVo) {
 		if (StringUtils.isEmpty(formVo.getSystemCode())) {
@@ -70,16 +78,10 @@ public class UserLogService {
 	 * 异步保存用户操作日志
 	 * 
 	 * @author sm
-	 * @param userId
-	 *            用户id
-	 * @param remark
-	 *            备注
-	 * @param result
-	 *            结果
-	 * @param arg
-	 *            参数
-	 * @param ucFlag
-	 *            uc用户标志
+	 * @param d100001
+	 *            vo
+	 * @param systemCode
+	 *            systemCode
 	 */
 	public void saveUserLog(D100001 d100001, String systemCode) {
 		UserLog userLog = new UserLog();
@@ -92,15 +94,39 @@ public class UserLogService {
 			try {
 				saveFile(fileInfo, Base64Utils.decodeFromString(d100001.getFile().getFileContent()));
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("保存文件出错", e);
 			}
 			userLog.setFileInfo(fileInfo);
 		}
 		userLogRepository.save(userLog);
 	}
 
-	public void saveFile(FileInfo fileInfo, byte[] content) throws IOException {
-		operations.store(new BufferInputStream(content), fileInfo.getFileName(), fileInfo);
+	private String saveFile(FileInfo fileInfo, byte[] content) throws IOException {
+		return String.valueOf(operations.store(new BufferInputStream(content), fileInfo.getFileName(), fileInfo).getId());
+	}
+
+	/**
+	 * 保存用户操作日志
+	 * 
+	 * @author sm
+	 * @param userLogVo
+	 *            用户日志vo
+	 */
+	public void saveUserLogEs(UserLogEsVo userLogVo) {
+		UserLogEs userLog = new UserLogEs();
+		mapper.map(userLogVo, userLog);
+		if (null != userLogVo.getFile()) {
+			FileInfo fileInfo = new FileInfo(userLogVo.getFile().getFileName(), userLogVo.getFile().getFileType());
+			fileInfoRepository.save(fileInfo);
+			try {
+				String fileId = saveFile(fileInfo, Base64Utils.decodeFromString(userLogVo.getFile().getFileContent()));
+				userLog.setFileId(fileId);
+
+			} catch (IOException e) {
+				logger.error("保存文件出错", e);
+			}
+		}
+		userLogEsRepository.save(userLog);
 	}
 
 	/**

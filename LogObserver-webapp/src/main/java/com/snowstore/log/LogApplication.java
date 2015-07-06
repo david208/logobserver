@@ -18,8 +18,13 @@ package com.snowstore.log;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+
+import com.snowstore.log.configure.LogStashConfigure;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.snowstore.log", excludeFilters = { @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LogStashConfigure.class) })
 public class LogApplication {
 
 	public static void main(String[] args) throws Exception {

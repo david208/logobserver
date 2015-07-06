@@ -10,6 +10,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -30,12 +32,19 @@ import com.snowstore.log.vo.TreeData.NodeData;
 @Controller
 @RequestMapping
 public class UserLogController {
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Autowired
 	private UserLogService userLogService;
 
 	@RequestMapping
+	public String index(){
+		return "/index";
+	}
+	
+	
 	public String userLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
+		
 		Page<UserLog> page = userLogService.findPage(formVo);
 		model.addAttribute("resultVo", page);
 
