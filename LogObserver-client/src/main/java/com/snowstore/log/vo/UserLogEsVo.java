@@ -3,8 +3,6 @@ package com.snowstore.log.vo;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.zendaimoney.hera.connector.vo.DatagramBody;
-
 //日志记录
 public class UserLogEsVo implements Serializable {
 

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.snowstore.log.vo.UserLogEsVo;
 
 @Component
-public class DefaultMessageDelegate implements MessageListener {
+public class UserLogMessageDelegate implements MessageListener {
 
 	@Autowired
 	private UserLogService userLogService;

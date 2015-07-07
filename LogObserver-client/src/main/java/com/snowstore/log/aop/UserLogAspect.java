@@ -99,7 +99,6 @@ public class UserLogAspect {
 						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo);
 				}
 			} finally {
-
 			}
 
 		}

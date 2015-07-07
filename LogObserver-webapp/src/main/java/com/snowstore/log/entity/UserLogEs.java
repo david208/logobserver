@@ -29,6 +29,8 @@ public class UserLogEs implements Serializable {
 	private Date logTime;
 	private String ip;
 	private String fileId;
+	private String appName;
+	private boolean fileFlag = false;
 
 	public String getRemark() {
 		return remark;
@@ -116,6 +118,22 @@ public class UserLogEs implements Serializable {
 
 	public void setFileId(String fileId) {
 		this.fileId = fileId;
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public boolean isFileFlag() {
+		return fileFlag;
+	}
+
+	public void setFileFlag(boolean fileFlag) {
+		this.fileFlag = fileFlag;
 	}
 
 }

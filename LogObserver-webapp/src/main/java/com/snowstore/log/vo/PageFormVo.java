@@ -8,7 +8,7 @@ public class PageFormVo implements Pageable {
 	private int page = 1;
 	private int rows = 10;
 
-	private String sort = "id";
+	private String sort = "_id";
 	private String order = "desc";
 	private Sort sortSet;
 

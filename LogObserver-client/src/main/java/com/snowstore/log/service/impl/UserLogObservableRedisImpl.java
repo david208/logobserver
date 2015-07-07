@@ -1,15 +1,12 @@
 package com.snowstore.log.service.impl;
 
 import java.util.Date;
-
-import javax.annotation.Resource;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
-import org.springframework.scheduling.annotation.Async;
 
 import com.snowstore.log.service.UserLogObservable;
 import com.snowstore.log.vo.FileInfo;
@@ -21,7 +18,11 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 	@Autowired
 	private RedisTemplate<String, UserLogEsVo> redisTemplate;
 
+	 static final String CHANNEL_NAME = "userLog";
+
 	private String systemCode;
+
+	private final ExecutorService cachedThreadPool = Executors.newFixedThreadPool(4);
 
 	public String getSystemCode() {
 		return systemCode;
@@ -32,7 +33,6 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 	}
 
 	@Override
-	@Async
 	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo) {
 		UserLogEsVo esVo = new UserLogEsVo();
 		esVo.setAppName(systemCode);
@@ -44,7 +44,28 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 		esVo.setUcFlag(userInfo.isUcFlag());
 		esVo.setUserId(userInfo.getUserId());
 		esVo.setUsername(userInfo.getUserName());
-		if (null != fileInfo) {
+		cachedThreadPool.submit(new LogTask(esVo, fileInfo, redisTemplate));
+	}
+
+}
+
+class LogTask implements Runnable {
+
+	private UserLogEsVo esVo;
+
+	private FileInfo fileInfo;
+
+	private RedisTemplate<String, UserLogEsVo> redisTemplate;
+
+	public LogTask(UserLogEsVo esVo, FileInfo fileInfo, RedisTemplate<String, UserLogEsVo> redisTemplate) {
+		this.esVo = esVo;
+		this.fileInfo = fileInfo;
+		this.redisTemplate = redisTemplate;
+	}
+
+	@Override
+	public void run() {
+		if (null != this.fileInfo) {
 			UserLogEsVo.File file = new UserLogEsVo.File();
 			file.setFileContent(Base64.encodeBase64String(fileInfo.getContent()));
 			file.setFileName(fileInfo.getFileName());
@@ -52,10 +73,26 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 			esVo.setFile(file);
 		}
 		try {
-			redisTemplate.convertAndSend("userLog", esVo);
+			redisTemplate.convertAndSend(UserLogObservableRedisImpl.CHANNEL_NAME, esVo);
 		} finally {
 		}
 
+	}
+
+	public UserLogEsVo getEsVo() {
+		return esVo;
+	}
+
+	public void setEsVo(UserLogEsVo esVo) {
+		this.esVo = esVo;
+	}
+
+	public FileInfo getFileInfo() {
+		return fileInfo;
+	}
+
+	public void setFileInfo(FileInfo fileInfo) {
+		this.fileInfo = fileInfo;
 	}
 
 }

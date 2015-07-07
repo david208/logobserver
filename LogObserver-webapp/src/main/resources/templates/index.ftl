@@ -9,9 +9,13 @@
 </head>
 
 <body height="100%">
-   <iframe id="iFrame1" name="iFrame1" width="100%" height="100%" onload="this.height=document.body.scrollHeight-50" frameborder="0" src="/kibana"></iframe>
-   <a href="/logout" class="btn">
-                    <span class="glyphicon glyphicon-off "></span>退出</a>
+
+   <iframe id="iFrame1" name="iFrame1" width="100%" height="100%" onload="this.height=document.body.scrollHeight-50" frameborder="0" src="/kibana">
+   </iframe>
+   <div align="right" >
+<a href="/logout" class="btn">
+                    <span class="glyphicon glyphicon-off "></span>退出</a></div>
+   
 </body>
 
 </html>

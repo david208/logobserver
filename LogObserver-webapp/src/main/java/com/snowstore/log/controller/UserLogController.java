@@ -24,6 +24,7 @@ import com.snowstore.hera.connector.monitor.impl.MonitorInfo;
 import com.snowstore.hera.connector.monitor.impl.ZooL;
 import com.snowstore.log.entity.FileInfo;
 import com.snowstore.log.entity.UserLog;
+import com.snowstore.log.entity.UserLogEs;
 import com.snowstore.log.service.UserLogService;
 import com.snowstore.log.vo.TreeData;
 import com.snowstore.log.vo.UserLogVo;
@@ -38,13 +39,12 @@ public class UserLogController {
 	private UserLogService userLogService;
 
 	@RequestMapping
-	public String index(){
+	public String index() {
 		return "/index";
 	}
-	
-	
+
 	public String userLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
-		
+
 		Page<UserLog> page = userLogService.findPage(formVo);
 		model.addAttribute("resultVo", page);
 
@@ -110,6 +110,21 @@ public class UserLogController {
 			treeData.getNodeDatas().add(nodeData);
 		}
 		return treeData;
+	}
+
+	@RequestMapping("/fileLog")
+	public String fileLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
+
+		Page<UserLogEs> page = userLogService.findPageEs(formVo);
+		model.addAttribute("resultVo", page);
+
+		model.addAttribute("keyword", formVo.getKeyword());
+		model.addAttribute("systemCode", formVo.getSystemCode());
+		if (null == httpServletRequest.getSession().getAttribute("uname"))
+			httpServletRequest.getSession().setAttribute("uname", userLogService.getUsername());
+		if (null == httpServletRequest.getSession().getAttribute("systemCodeList"))
+			httpServletRequest.getSession().setAttribute("systemCodeList", userLogService.findBySystemCodeGroup());
+		return "/fileInfo";
 	}
 
 }

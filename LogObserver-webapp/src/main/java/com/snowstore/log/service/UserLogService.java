@@ -3,7 +3,11 @@ package com.snowstore.log.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.activemq.protobuf.BufferInputStream;
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +29,7 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
+import org.springframework.util.CollectionUtils;
 
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
@@ -43,6 +48,8 @@ import com.snowstore.log.vo.UserLogVo;
 @Service
 @Transactional
 public class UserLogService {
+
+	private Lock lock = new ReentrantLock();
 
 	private static final Mapper mapper = new DozerBeanMapper();
 
@@ -106,7 +113,7 @@ public class UserLogService {
 	}
 
 	/**
-	 * 保存用户操作日志
+	 * 保存用户操作日志ES
 	 * 
 	 * @author sm
 	 * @param userLogVo
@@ -115,12 +122,15 @@ public class UserLogService {
 	public void saveUserLogEs(UserLogEsVo userLogVo) {
 		UserLogEs userLog = new UserLogEs();
 		mapper.map(userLogVo, userLog);
+		userLog.setAppName(findAppNameBySystemCode(userLogVo.getAppName()));
+		userLog.setSystemCode(userLogVo.getAppName());
 		if (null != userLogVo.getFile()) {
 			FileInfo fileInfo = new FileInfo(userLogVo.getFile().getFileName(), userLogVo.getFile().getFileType());
-			fileInfoRepository.save(fileInfo);
+			String fileId = fileInfoRepository.save(fileInfo).getId();
 			try {
-				String fileId = saveFile(fileInfo, Base64Utils.decodeFromString(userLogVo.getFile().getFileContent()));
+				 saveFile(fileInfo, Base64Utils.decodeFromString(userLogVo.getFile().getFileContent()));
 				userLog.setFileId(fileId);
+				userLog.setFileFlag(true);
 
 			} catch (IOException e) {
 				logger.error("保存文件出错", e);
@@ -177,5 +187,33 @@ public class UserLogService {
 			list.add(((BasicDBObject) basicDBObject).getString("systemCode"));
 		}
 		return list;
+	}
+
+	private final Map<String, String> systemCodeMapAppName = new HashMap<String, String>();
+
+	private String findAppNameBySystemCode(String systemCode) {
+		if (CollectionUtils.isEmpty(systemCodeMapAppName)) {
+			lock.lock();
+			if (CollectionUtils.isEmpty(systemCodeMapAppName)) {
+				systemCodeMapAppName.put("1005", "apollo");
+				systemCodeMapAppName.put("2003", "fortune");
+				systemCodeMapAppName.put("2006", "crm");
+				systemCodeMapAppName.put("2007", "uc");
+				systemCodeMapAppName.put("1007", "trident");
+				systemCodeMapAppName.put("2002", "ares");
+				systemCodeMapAppName.put("2010", "as");
+			}
+			lock.unlock();
+		}
+
+		return systemCodeMapAppName.get(StringUtils.substring(systemCode, 0, 4));
+
+	}
+
+	public Page<UserLogEs> findPageEs(final UserLogVo formVo) {
+		if (StringUtils.isNotEmpty(formVo.getKeyword()))
+			return userLogEsRepository.findByFileId(formVo.getKeyword(), formVo);
+		return userLogEsRepository.findByFileFlagTrue(formVo);
+
 	}
 }

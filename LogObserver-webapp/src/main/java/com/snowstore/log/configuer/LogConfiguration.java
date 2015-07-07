@@ -18,8 +18,6 @@ import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-
-
 import com.snowstore.log.configure.LogStashConfigure;
 /*import com.snowstore.hera.connector.monitor.impl.ZooL;
  */
@@ -34,6 +32,7 @@ import com.zendaimoney.hera.connector.MessageReceiver;
 @ComponentScan(basePackages = "com.snowstore.log", excludeFilters = { @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LogStashConfigure.class) })
 public class LogConfiguration {
 
+	private static final String CHANNLE_NAME = "userLog";
 	@Autowired
 	private EsbSettings esbSettings;
 	@Autowired
@@ -69,18 +68,18 @@ public class LogConfiguration {
 	public RedisMessageListenerContainer redisMessageListenerContainer() {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
 		container.setConnectionFactory(redisConnectionFactory);
-		container.addMessageListener(messageListenerAdapter(), new ChannelTopic("userLog"));
+		container.addMessageListener(messageListenerAdapter(), new ChannelTopic(CHANNLE_NAME));
 		return container;
 	}
 
 	@Autowired
-	MessageListener defaultMessageDelegate;
+	MessageListener userLogMessageDelegate;
 	@Autowired
 	RedisConnectionFactory redisConnectionFactory;
 
 	@Bean
 	public MessageListenerAdapter messageListenerAdapter() {
-		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(defaultMessageDelegate);
+		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(userLogMessageDelegate);
 		messageListenerAdapter.setSerializer(new JdkSerializationRedisSerializer());
 		return messageListenerAdapter;
 	}
