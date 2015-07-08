@@ -10,12 +10,12 @@
 
 <body height="100%">
 
-    <iframe id="iFrame1" name="iFrame1" width="100%" height="100%" onload="this.height=document.body.scrollHeight-50" frameborder="0" src="/kibana">
+    <iframe id="iFrame1" name="iFrame1" width="100%" height="100%" onload="this.height=document.body.scrollHeight-50" frameborder="0" src="/kibana/#/dashboard/monitor">
     </iframe>
     <div align="center">
     <span class="glyphicon glyphicon-user"></span>${uname!""},您好
-        <a href="/monitor" class="btn">
-            <span class="glyphicon glyphicon-signal "></span>异常监控</a>
+        <a href="/" class="btn">
+            <span class="glyphicon glyphicon-step-backward"></span>返回</a>
         <a href="/logout" class="btn">
             <span class="glyphicon glyphicon-off "></span>退出</a>
     </div>

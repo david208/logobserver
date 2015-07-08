@@ -18,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+//import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.snowstore.hera.connector.monitor.impl.MonitorInfo;
 import com.snowstore.hera.connector.monitor.impl.ZooL;
@@ -39,10 +39,20 @@ public class UserLogController {
 	private UserLogService userLogService;
 
 	@RequestMapping
-	public String index() {
+	public String index(HttpServletRequest httpServletRequest) {
+		if (null == httpServletRequest.getSession().getAttribute("uname"))
+			httpServletRequest.getSession().setAttribute("uname", userLogService.getUsername());
 		return "/index";
 	}
 
+	@RequestMapping("/monitor")
+	public String monitorNew(HttpServletRequest httpServletRequest) {
+		if (null == httpServletRequest.getSession().getAttribute("uname"))
+			httpServletRequest.getSession().setAttribute("uname", userLogService.getUsername());
+		return "/monitor_new";
+	}
+
+	@Deprecated
 	public String userLog(UserLogVo formVo, Model model, HttpServletRequest httpServletRequest) {
 
 		Page<UserLog> page = userLogService.findPage(formVo);
@@ -79,13 +89,15 @@ public class UserLogController {
 	@Autowired(required = false)
 	private ZooL zooL;
 
-	@RequestMapping("/monitor")
+	@Deprecated
+	// @RequestMapping("/monitor")
 	public String monitor() {
 		return "/monitor";
 	}
 
-	@RequestMapping("/getData")
-	@ResponseBody
+	@Deprecated
+	// @RequestMapping("/getData")
+	// @ResponseBody
 	public TreeData getData() {
 		Map<String, Map<String, MonitorInfo>> nodeMap = zooL.getZooListener().getNodeMap();
 		TreeData treeData = new TreeData();
