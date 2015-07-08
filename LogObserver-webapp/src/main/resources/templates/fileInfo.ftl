@@ -16,11 +16,10 @@
 
         <title>日志中心</title>
         <script type="text/javascript">
-      
         $(function() {
-           
-          
-            
+
+
+
 
             $("#systemCode").change(function() {
                 $("#queryFrom").submit();
@@ -32,7 +31,6 @@
 
 
         })
-         
         </script>
         <style>
         </style>
@@ -42,13 +40,7 @@
     <div class="container">
 
         <div class="rightbar fl table-responsive" style="overflow-x:hidden">
-            <div align="right">
-                
-                    <span class="glyphicon glyphicon-user"></span>${uname!""},您好
-                <a href="/logout" class="btn">
-                    <span class="glyphicon glyphicon-off "></span>退出</a>
-
-            </div>
+            
             <table class="table table-striped  table-hover ">
 
                 <caption style="text-align: center">
@@ -59,10 +51,10 @@
                             <div class="row">
 
                                 <div class="col-lg-6">
-                                  
+
                                 </div>
                                 <div class="col-lg-6">
-                             
+
                                     <div class="input-group">
                                         <input type="text" class="form-control" placeholder="文件ID..." id="keyword" value='${keyword!""}' name="keyword">
                                         <span class="input-group-btn">
@@ -82,7 +74,7 @@
                         <th>ip</th>
                         <th>操作</th>
                         <th>记录时间</th>
-                         <th>文件ID</th>
+                        <th>文件ID</th>
                         <th>操作</th>
                     </tr>
                 </thead>
@@ -96,9 +88,9 @@
                                 <td>${item.remark!''}</td>
                                 <td>${item.logTime?string('yyyy-MM-dd HH:mm:ss')!''}
                                 </td>
-                                 <td>${item.fileId!''}</td>
+                                <td>${item.fileId!''}</td>
                                 <td>
-                                        <a class="btn btn-info" href="/file/${(item.fileId)!''}" role="button">下载文件</a>
+                                    <a class="btn btn-info" href="/file/${(item.fileId)!''}" role="button">下载文件</a>
 
                                 </td>
 
@@ -116,6 +108,13 @@
 
             </div>
         </div>
+         <div align="center">
+    <span class="glyphicon glyphicon-user"></span>${uname!""},您好
+     <a href="/" class="btn">
+            <span class="glyphicon glyphicon-step-backward"></span>返回</a>
+        <a href="/logout" class="btn">
+            <span class="glyphicon glyphicon-off "></span>退出</a>
+    </div>
     </div>
 </body>
 

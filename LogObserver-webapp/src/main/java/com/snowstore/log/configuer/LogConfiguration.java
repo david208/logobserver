@@ -22,7 +22,7 @@ import com.snowstore.log.configure.LogStashConfigure;
 /*import com.snowstore.hera.connector.monitor.impl.ZooL;
  */
 import com.snowstore.log.service.LogAuditor;
-import com.snowstore.log.service.LogNofityObserver;
+//import com.snowstore.log.service.LogNofityObserver;
 import com.zendaimoney.hera.connector.EsbConnector;
 import com.zendaimoney.hera.connector.MessageReceiver;
 
@@ -37,8 +37,8 @@ public class LogConfiguration {
 	private EsbSettings esbSettings;
 	@Autowired
 	private MessageReceiver logReceiver;
-	@Autowired
-	private LogNofityObserver logNofityObserver;
+	/*@Autowired
+	private LogNofityObserver logNofityObserver;*/
 
 	@Bean
 	public Validator getValidator() {
@@ -50,7 +50,8 @@ public class LogConfiguration {
 	 * zooL.setNofityObserver(logNofityObserver); return zooL; }
 	 */
 
-	@Bean
+	//@Bean
+	@Deprecated
 	public EsbConnector getEsbConnector() {
 		EsbConnector esbConnector = new EsbConnector();
 		esbConnector.setEsbUrl(esbSettings.getEsbUrl());
