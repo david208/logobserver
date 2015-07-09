@@ -18,7 +18,7 @@
         <script type="text/javascript">
         $(function() {
 
-
+ var patten = new RegExp(/^[A-Za-z0-9]+$/);
 
 
             $("#systemCode").change(function() {
@@ -28,9 +28,16 @@
             $("#search").click(function() {
                 $("#queryFrom").submit();
             });
+       
+       $("#keyword").keyup(function(){
+           if (!patten.test($(this).val()) )
+           $(this).val("");
+       })
 
 
         })
+        
+         
         </script>
         <style>
         </style>
@@ -56,7 +63,7 @@
                                 <div class="col-lg-6">
 
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="文件ID..." id="keyword" value='${keyword!""}' name="keyword">
+                                        <input type="text" class="form-control" placeholder="文件ID..." id="keyword" value='${keyword!""}' name="keyword" >
                                         <span class="input-group-btn">
                                             <button id="search" class="btn btn-default" type="button">Go!</button>
                                         </span>
