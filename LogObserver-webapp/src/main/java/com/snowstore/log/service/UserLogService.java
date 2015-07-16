@@ -128,7 +128,7 @@ public class UserLogService {
 			FileInfo fileInfo = new FileInfo(userLogVo.getFile().getFileName(), userLogVo.getFile().getFileType());
 			String fileId = fileInfoRepository.save(fileInfo).getId();
 			try {
-				 saveFile(fileInfo, Base64Utils.decodeFromString(userLogVo.getFile().getFileContent()));
+				saveFile(fileInfo, Base64Utils.decodeFromString(userLogVo.getFile().getFileContent()));
 				userLog.setFileId(fileId);
 				userLog.setFileFlag(true);
 
@@ -202,6 +202,12 @@ public class UserLogService {
 				systemCodeMapAppName.put("1007", "trident");
 				systemCodeMapAppName.put("2002", "ares");
 				systemCodeMapAppName.put("2010", "as");
+				systemCodeMapAppName.put("2014", "jupiter");
+				systemCodeMapAppName.put("2012", "juno");
+				systemCodeMapAppName.put("1009", "atlantis");
+				systemCodeMapAppName.put("1008", "neptune");
+				systemCodeMapAppName.put("2004", "thalassa");
+
 			}
 			lock.unlock();
 		}
