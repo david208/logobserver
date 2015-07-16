@@ -1,5 +1,7 @@
 package com.snowstore.log.configure;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -7,7 +9,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import com.snowstore.log.aop.UserLogAspect;
 import com.snowstore.log.service.UserDetailDelegate;
 import com.snowstore.log.service.UserLogObservable;
@@ -18,9 +19,14 @@ import com.snowstore.log.vo.UserLogEsVo;
 @Configuration
 public class LogStashConfigure {
 
-	private String logBrokerUrl = "172.16.200.134";
+	
+	@Value("${log.broker.url:172.16.200.134}")
+	private String logBrokerUrl ;
+
+	@Value("${system.code:}")
 	private String systemCode;
 
+	@Autowired(required=false)
 	private UserDetailDelegate<UserDetails> userDetailDelegate;
 
 	@Bean
