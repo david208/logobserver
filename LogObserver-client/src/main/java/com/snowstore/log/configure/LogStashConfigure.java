@@ -78,7 +78,7 @@ public class LogStashConfigure {
 		this.systemCode = systemCode;
 	}
 
-	@Bean
+	//@Bean
 	public UserDetailDelegate<UserDetails> userDetailDelegateImpl() {
 		return new UserDetailDelegateImpl<UserDetails>();
 	}
