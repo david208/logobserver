@@ -31,6 +31,7 @@ public class UserLogEs implements Serializable {
 	private String fileId;
 	private String appName;
 	private boolean fileFlag = false;
+	private long duration;
 
 	public String getRemark() {
 		return remark;
@@ -134,6 +135,14 @@ public class UserLogEs implements Serializable {
 
 	public void setFileFlag(boolean fileFlag) {
 		this.fileFlag = fileFlag;
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(long duration) {
+		this.duration = duration;
 	}
 
 }

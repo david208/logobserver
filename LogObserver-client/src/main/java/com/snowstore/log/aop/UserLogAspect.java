@@ -79,6 +79,7 @@ public class UserLogAspect {
 	@Around("userLog()")
 	public Object logUserOperate(ProceedingJoinPoint jp) throws Throwable {
 		Object result = "";
+		long start = System.currentTimeMillis();
 		try {
 			result = jp.proceed();
 		} catch (Throwable e) {
@@ -86,6 +87,8 @@ public class UserLogAspect {
 			throw e;
 		} finally {
 			try {
+				long end = System.currentTimeMillis();
+				long duration = end - start;
 				String remark = getRemark(jp);
 				FileInfo fileInfo = null;
 
@@ -96,7 +99,7 @@ public class UserLogAspect {
 				if (null != remark && !remark.isEmpty()) {
 					UserInfo userInfo = userDetailDelegate.getUserInfo();
 					if (null != userInfo)
-						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo);
+						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo, duration);
 				}
 			} finally {
 			}

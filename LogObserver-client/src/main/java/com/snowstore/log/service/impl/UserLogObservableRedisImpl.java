@@ -33,7 +33,7 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 	}
 
 	@Override
-	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo) {
+	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo,long duration) {
 		UserLogEsVo esVo = new UserLogEsVo();
 		esVo.setAppName(systemCode);
 		esVo.setArg(arg);
@@ -44,6 +44,7 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 		esVo.setUcFlag(userInfo.isUcFlag());
 		esVo.setUserId(userInfo.getUserId());
 		esVo.setUsername(userInfo.getUserName());
+		esVo.setDuration(duration);
 		cachedThreadPool.submit(new LogTask(esVo, fileInfo, redisTemplate));
 	}
 

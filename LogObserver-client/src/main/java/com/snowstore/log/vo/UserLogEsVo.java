@@ -58,6 +58,7 @@ public class UserLogEsVo implements Serializable {
 	private String ip;
 	private File file ;
 	private String appName;
+	private long duration;
 
 	public Long getUserId() {
 		return userId;
@@ -137,6 +138,14 @@ public class UserLogEsVo implements Serializable {
 
 	public void setAppName(String appName) {
 		this.appName = appName;
+	}
+
+	public long getDuration() {
+		return duration;
+	}
+
+	public void setDuration(long duration) {
+		this.duration = duration;
 	}
 
 }
