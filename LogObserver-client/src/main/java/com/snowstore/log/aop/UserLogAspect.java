@@ -1,6 +1,8 @@
 package com.snowstore.log.aop;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
@@ -83,7 +85,7 @@ public class UserLogAspect {
 		try {
 			result = jp.proceed();
 		} catch (Throwable e) {
-			result = e;
+			result = getUncaughtException(e);
 			throw e;
 		} finally {
 			try {
@@ -106,6 +108,15 @@ public class UserLogAspect {
 
 		}
 		return result;
+
+	}
+
+	public static String getUncaughtException(Throwable throwable) {
+		StringWriter stringWriter = new StringWriter();
+		PrintWriter printWriter = new PrintWriter(stringWriter);
+		throwable.printStackTrace(printWriter);
+		printWriter.close();
+		return stringWriter.toString();
 
 	}
 
