@@ -35,7 +35,7 @@ public class UserLogObservableImpl implements UserLogObservable {
 	 *            日志时间
 	 */
 	@Override
-	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo,long duration) {
+	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo, long duration, String signature) {
 		D100001 d100001 = new D100001();
 		d100001.setArg(arg);
 		d100001.setLogTime(logTime);
@@ -46,6 +46,7 @@ public class UserLogObservableImpl implements UserLogObservable {
 		d100001.setUserId(userInfo.getUserId());
 		d100001.setUsername(userInfo.getUserName());
 		d100001.setDuration(duration);
+		d100001.setSignature(signature);
 		if (null != fileInfo) {
 			File file = new File();
 			file.setFileContent(Base64.encodeBase64String(fileInfo.getContent()));

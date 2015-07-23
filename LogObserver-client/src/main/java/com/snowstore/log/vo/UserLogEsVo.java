@@ -6,7 +6,7 @@ import java.util.Date;
 //日志记录
 public class UserLogEsVo implements Serializable {
 
-	public static class File implements Serializable{
+	public static class File implements Serializable {
 		/**
 		 * 
 		 */
@@ -56,9 +56,10 @@ public class UserLogEsVo implements Serializable {
 	private boolean ucFlag;
 	private Date logTime;
 	private String ip;
-	private File file ;
+	private File file;
 	private String appName;
 	private long duration;
+	private String signature;
 
 	public Long getUserId() {
 		return userId;
@@ -146,6 +147,14 @@ public class UserLogEsVo implements Serializable {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 
 }

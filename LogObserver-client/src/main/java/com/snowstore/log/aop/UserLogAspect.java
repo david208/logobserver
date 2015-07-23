@@ -97,11 +97,12 @@ public class UserLogAspect {
 				if (getFileFlag(jp))
 					fileInfo = getFileInfo(jp);
 				String args = getArgs(jp);
+				String signature = getSignature(jp);
 
 				if (null != remark && !remark.isEmpty()) {
 					UserInfo userInfo = userDetailDelegate.getUserInfo();
 					if (null != userInfo)
-						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo, duration);
+						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo, duration, signature);
 				}
 			} finally {
 			}
@@ -167,6 +168,10 @@ public class UserLogAspect {
 		Method method = signature.getMethod();
 		UserLog userLog = method.getAnnotation(UserLog.class);
 		return userLog;
+	}
+
+	private String getSignature(JoinPoint jp) {
+		return jp.getSignature().toLongString();
 	}
 
 	public FileInfo getFileInfo(JoinPoint jp) {

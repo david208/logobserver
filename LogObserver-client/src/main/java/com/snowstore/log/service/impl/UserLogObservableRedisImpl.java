@@ -18,7 +18,7 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 	@Autowired
 	private RedisTemplate<String, UserLogEsVo> redisTemplate;
 
-	 static final String CHANNEL_NAME = "userLog";
+	static final String CHANNEL_NAME = "userLog";
 
 	private String systemCode;
 
@@ -33,7 +33,7 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 	}
 
 	@Override
-	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo,long duration) {
+	public void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo, long duration, String signature) {
 		UserLogEsVo esVo = new UserLogEsVo();
 		esVo.setAppName(systemCode);
 		esVo.setArg(arg);
@@ -45,6 +45,7 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 		esVo.setUserId(userInfo.getUserId());
 		esVo.setUsername(userInfo.getUserName());
 		esVo.setDuration(duration);
+		esVo.setSignature(signature);
 		cachedThreadPool.submit(new LogTask(esVo, fileInfo, redisTemplate));
 	}
 

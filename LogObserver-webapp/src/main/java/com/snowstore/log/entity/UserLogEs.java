@@ -32,6 +32,7 @@ public class UserLogEs implements Serializable {
 	private String appName;
 	private boolean fileFlag = false;
 	private long duration;
+	private String signature;
 
 	public String getRemark() {
 		return remark;
@@ -143,6 +144,14 @@ public class UserLogEs implements Serializable {
 
 	public void setDuration(long duration) {
 		this.duration = duration;
+	}
+
+	public String getSignature() {
+		return signature;
+	}
+
+	public void setSignature(String signature) {
+		this.signature = signature;
 	}
 
 }

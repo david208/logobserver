@@ -8,6 +8,6 @@ import com.snowstore.log.vo.UserInfo;
 public interface UserLogObservable {
 
 	// 通知
-	void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo,long duration);
+	void notifyObserver(UserInfo userInfo, String remark, String result, String arg, Date logTime, String ip, FileInfo fileInfo,long duration,String signature);
 
 }
