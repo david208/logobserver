@@ -9,6 +9,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import com.snowstore.log.aop.UserLogAspect;
 import com.snowstore.log.service.UserDetailDelegate;
 import com.snowstore.log.service.UserLogObservable;
@@ -29,11 +30,11 @@ public class LogStashConfigure {
 	@Autowired(required=false)
 	private UserDetailDelegate<UserDetails> userDetailDelegate;
 
-	@Bean
 	public RedisConnectionFactory jedisConnectionFactory() {
 		JedisConnectionFactory jredisConnectionFactory = new JedisConnectionFactory();
 		jredisConnectionFactory.setHostName(logBrokerUrl);
-		// jredisConnectionFactory.setPort(port);
+		jredisConnectionFactory.setUsePool(true);
+		jredisConnectionFactory.afterPropertiesSet();
 		return jredisConnectionFactory;
 	}
 
