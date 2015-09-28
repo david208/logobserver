@@ -207,7 +207,15 @@ public class UserLogService {
 				systemCodeMapAppName.put("1009", "atlantis");
 				systemCodeMapAppName.put("1008", "neptune");
 				systemCodeMapAppName.put("2004", "thalassa");
+				systemCodeMapAppName.put("1004", "mars");
+				systemCodeMapAppName.put("2016", "athene");
+				systemCodeMapAppName.put("2009", "vesta");	
+				systemCodeMapAppName.put("2009", "vesta");	
+				systemCodeMapAppName.put("2015", "credit");	
+				systemCodeMapAppName.put("2010", "as");	
+				systemCodeMapAppName.put("2008", "tpp");	
 
+				
 			}
 			lock.unlock();
 		}
