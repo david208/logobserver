@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 //import org.springframework.web.bind.annotation.ResponseBody;
 
+
 import com.snowstore.hera.connector.monitor.impl.MonitorInfo;
 import com.snowstore.hera.connector.monitor.impl.ZooL;
 import com.snowstore.log.entity.FileInfo;
@@ -33,7 +34,8 @@ import com.snowstore.log.vo.TreeData.NodeData;
 @Controller
 @RequestMapping
 public class UserLogController {
-	Logger logger = LoggerFactory.getLogger(getClass());
+	@SuppressWarnings("unused")
+	private  static final Logger logger = LoggerFactory.getLogger(UserLogController.class);
 
 	@Autowired
 	private UserLogService userLogService;
@@ -50,6 +52,11 @@ public class UserLogController {
 		if (null == httpServletRequest.getSession().getAttribute("uname"))
 			httpServletRequest.getSession().setAttribute("uname", userLogService.getUsername());
 		return "/monitor_new";
+	}
+	
+	@RequestMapping("/403")
+	public String m403(HttpServletRequest httpServletRequest) {
+		return "/403";
 	}
 
 	@Deprecated

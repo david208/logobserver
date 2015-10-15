@@ -54,7 +54,7 @@ public class UserLogService {
 	private static final Mapper mapper = new DozerBeanMapper();
 
 	private static final Gson gson = new Gson();
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger logger = LoggerFactory.getLogger(UserLogService.class);
 
 	public final static String ANONYMOUS_USER = "anonymousUser";
 
@@ -209,17 +209,17 @@ public class UserLogService {
 				systemCodeMapAppName.put("2004", "thalassa");
 				systemCodeMapAppName.put("1004", "mars");
 				systemCodeMapAppName.put("2016", "athene");
-				systemCodeMapAppName.put("2009", "vesta");	
-				systemCodeMapAppName.put("2009", "vesta");	
-				systemCodeMapAppName.put("2015", "credit");	
-				systemCodeMapAppName.put("2010", "as");	
-				systemCodeMapAppName.put("2008", "tpp");	
-				systemCodeMapAppName.put("1002", "hera");	
+				systemCodeMapAppName.put("2009", "vesta");
+				systemCodeMapAppName.put("2009", "vesta");
+				systemCodeMapAppName.put("2015", "credit");
+				systemCodeMapAppName.put("2010", "as");
+				systemCodeMapAppName.put("2008", "tpp");
+				systemCodeMapAppName.put("1002", "hera");
 				systemCodeMapAppName.put("2001", "pluto");
 				systemCodeMapAppName.put("1010", "terra");
 				systemCodeMapAppName.put("1003", "prometheus");
 				systemCodeMapAppName.put("1006", "logobserver");
-				systemCodeMapAppName.put("2013", "uc-cas");		
+				systemCodeMapAppName.put("2013", "uc-cas");
 			}
 			lock.unlock();
 		}

@@ -21,7 +21,7 @@ import com.zendaimoney.hera.connector.vo.Datagram;
 
 @Service
 public class EsbService {
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger logger = LoggerFactory.getLogger(EsbService.class);
 
 	@Autowired
 	private LogFilterChain logFilterChain;
