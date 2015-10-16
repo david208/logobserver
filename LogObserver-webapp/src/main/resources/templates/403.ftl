@@ -9,28 +9,23 @@
 </head>
 
 <body>
-	<div class="mid clearfix" style="margin-top: 100px;">
-		<div class="error_page">
-			<div class="error_title">
-				<h2>错误403</h2>
+ <div class="container">
+	 <div class="table-responsive row middle" style="overflow-x:hidden">
+			<div class="error_title" style="color:red">
+				<h2><strong>错误403</strong></h2>
 			</div>
 			<div class="error_content clearfix">
-				<div class="error_left fl">
-					<img src="/image/error_403.png" width="269"
-						height="285" border="0" />
-				</div>
-				<div class="error_right fl">
-					<div class="error_sorry">
-						<h1>sorry 你访问的页面需要更高权限</h1>
+					<img src="/image/error_403.png" class="img-responsive" />
+					<div class="error_sorry" style="color:red">
+						<h1><strong>sorry 你访问的页面需要更高权限</strong></h1>
 					</div>
 					<div class="error_back">
 						<ul class="clearfix">
-							<li class="on"><a href="javascript:history.back();">返回上一页</a></li>
+							<li class="on"><a role="button" class="btn btn-warning" href="javascript:history.back();">返回上一页</a></li>
 						</ul>
 					</div>
-				</div>
-			</div>
 		</div>
+	</div>
 	</div>
 </body>
 
