@@ -33,7 +33,7 @@ public class BroadcastService {
 		for (WebSocketSession session : sessions) {
 			try {
 				sendMessage(session, message);
-			} catch (Throwable ex) {
+			} catch (Exception ex) {
 				// if Snake#sendMessage fails the client is removed
 				removeSession(session);
 			}
