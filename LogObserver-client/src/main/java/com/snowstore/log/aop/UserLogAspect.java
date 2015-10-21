@@ -1,8 +1,6 @@
 package com.snowstore.log.aop;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Date;
@@ -113,11 +111,12 @@ public class UserLogAspect {
 	}
 
 	public static String getUncaughtException(Exception exception) {
-		StringWriter stringWriter = new StringWriter();
+/*		StringWriter stringWriter = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(stringWriter);
 		exception.printStackTrace(printWriter);
-		printWriter.close();
-		return stringWriter.toString();
+		printWriter.close();*/
+		return String.valueOf(exception.getStackTrace());
+		//return stringWriter.toString();
 
 	}
 
