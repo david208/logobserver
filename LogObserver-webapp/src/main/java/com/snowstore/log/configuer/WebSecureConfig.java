@@ -27,6 +27,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class WebSecureConfig extends WebSecurityConfigurerAdapter {
+	@Value("${ldap.group}")
+	private String ldapGroup;
+
 	@Bean
 	public Md5PasswordEncoder passwordEncoder() {
 		return new Md5PasswordEncoder();
@@ -39,13 +42,13 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
 		return accessDeniedHandler;
 	}
 
-	private static final Logger logger = LoggerFactory.getLogger(WebSecureConfig.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(WebSecureConfig.class);
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.httpBasic().disable();
-		http.authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**","/image/**","/403").permitAll().anyRequest().hasAuthority("ROLE_LOGVIEWERGROUP").and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
+		http.authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**", "/image/**", "/403").permitAll().anyRequest().hasAuthority(ldapGroup).and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandlerImpl());
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 	}
@@ -77,7 +80,7 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
 						String md5Password = new String(Base64.encode(digest.digest()));
 						return "{MD5}" + md5Password;
 					} catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
-						logger.error("LDAP错误", e);
+						LOGGER.error("LDAP错误", e);
 					}
 					return "";
 				}

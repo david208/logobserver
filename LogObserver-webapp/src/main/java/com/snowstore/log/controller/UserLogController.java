@@ -35,7 +35,7 @@ import com.snowstore.log.vo.TreeData.NodeData;
 @RequestMapping
 public class UserLogController {
 	@SuppressWarnings("unused")
-	private  static final Logger logger = LoggerFactory.getLogger(UserLogController.class);
+	private  static final Logger LOGGER = LoggerFactory.getLogger(UserLogController.class);
 
 	@Autowired
 	private UserLogService userLogService;

@@ -54,7 +54,7 @@ public class UserLogService {
 	private static final Mapper mapper = new DozerBeanMapper();
 
 	private static final Gson gson = new Gson();
-	private static final Logger logger = LoggerFactory.getLogger(UserLogService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserLogService.class);
 
 	public final static String ANONYMOUS_USER = "anonymousUser";
 
@@ -101,7 +101,7 @@ public class UserLogService {
 			try {
 				saveFile(fileInfo, Base64Utils.decodeFromString(d100001.getFile().getFileContent()));
 			} catch (IOException e) {
-				logger.error("保存文件出错", e);
+				LOGGER.error("保存文件出错", e);
 			}
 			userLog.setFileInfo(fileInfo);
 		}
@@ -133,7 +133,7 @@ public class UserLogService {
 				userLog.setFileFlag(true);
 
 			} catch (IOException e) {
-				logger.error("保存文件出错", e);
+				LOGGER.error("保存文件出错", e);
 			}
 		}
 		userLogEsRepository.save(userLog);

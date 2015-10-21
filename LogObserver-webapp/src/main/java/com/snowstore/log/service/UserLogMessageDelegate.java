@@ -19,14 +19,15 @@ public class UserLogMessageDelegate implements MessageListener {
 
 	private RedisSerializer<Object> redisSerializer = new JdkSerializationRedisSerializer();
 
-	private Logger logger = LoggerFactory.getLogger(getClass());
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserLogMessageDelegate.class);
+
 
 	@Override
 	public void onMessage(Message message, byte[] pattern) {
 		try {
 			userLogService.saveUserLogEs((UserLogEsVo) redisSerializer.deserialize(message.getBody()));
 		} catch (Exception e) {
-			logger.error("保存用户日志出错", e);
+			LOGGER.error("保存用户日志出错", e);
 		}
 
 	}
