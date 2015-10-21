@@ -1,7 +1,5 @@
 package com.snowstore.log.service.esb;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -45,9 +43,7 @@ public class EsbService {
 			logHandlers.get("h" + messageCode).handle(datagram.getDatagramBody(), datagram.getDatagramHeader().getSenderSystemCode());
 		} catch (Exception e) {
 
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw, true));
-			logger.warn(sw.toString());
+			logger.warn("接受出错",e);
 		}
 		return datagram;
 

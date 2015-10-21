@@ -84,7 +84,7 @@ public class UserLogAspect {
 		long start = System.currentTimeMillis();
 		try {
 			result = jp.proceed();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			result = getUncaughtException(e);
 			throw e;
 		} finally {
@@ -112,10 +112,10 @@ public class UserLogAspect {
 
 	}
 
-	public static String getUncaughtException(Throwable throwable) {
+	public static String getUncaughtException(Exception exception) {
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter printWriter = new PrintWriter(stringWriter);
-		throwable.printStackTrace(printWriter);
+		exception.printStackTrace(printWriter);
 		printWriter.close();
 		return stringWriter.toString();
 

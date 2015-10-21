@@ -2,6 +2,8 @@ package com.snowstore.log.service.impl;
 
 import java.lang.reflect.Method;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +20,8 @@ import com.zendaimoney.uc.rmi.vo.Staff;
 public class UserDetailDelegateImpl<T extends UserDetails> implements UserDetailDelegate<T> {
 
 	public final static String ANONYMOUS_USER = "anonymousUser";
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailDelegateImpl.class);
 
 	/**
 	 * @author SM
@@ -65,7 +69,7 @@ public class UserDetailDelegateImpl<T extends UserDetails> implements UserDetail
 				method.setAccessible(true);
 				userInfo.setUserId(Long.valueOf(method.invoke(user).toString()));
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.warn("获取用户信息出错", e);
 				return null;
 			}
 
