@@ -45,7 +45,7 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.httpBasic().disable();
-		http.authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**","/image/**","/403").permitAll().anyRequest().hasAuthority("ROLE_POSEIDONGROUP").and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
+		http.authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**","/image/**","/403").permitAll().anyRequest().hasAuthority("ROLE_LOGVIEWERGROUP").and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandlerImpl());
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 	}
