@@ -2,11 +2,24 @@ package com.snowstore.log.vo;
 
 public class UserInfo {
 
+	private static final UserInfo ANONYMOUS = new UserInfo();
+
+	static {
+		ANONYMOUS.setUcFlag(false);
+		ANONYMOUS.setUserId(99999999999l);
+		ANONYMOUS.setUserName("Anonymous");
+	}
+
 	private Long userId;
 
 	private String userName;
 
 	private boolean ucFlag;
+
+	public static UserInfo getAnonymous() {
+		return ANONYMOUS;
+
+	}
 
 	public Long getUserId() {
 		return userId;

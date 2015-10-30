@@ -39,8 +39,9 @@ public class UserDetailDelegateImpl<T extends UserDetails> implements UserDetail
 	 */
 	public Staff getUcStaff() {
 		Authentication currentuser = getAuthentication();
-		if (checkUser(currentuser) && currentuser.getPrincipal() instanceof Staff)
+		if (checkUser(currentuser) && currentuser.getPrincipal() instanceof Staff) {
 			return (Staff) currentuser.getPrincipal();
+		}
 		return null;
 	}
 

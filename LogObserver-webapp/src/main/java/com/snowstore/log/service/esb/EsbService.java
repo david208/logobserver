@@ -19,7 +19,7 @@ import com.zendaimoney.hera.connector.vo.Datagram;
 
 @Service
 public class EsbService {
-	private static final Logger logger = LoggerFactory.getLogger(EsbService.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EsbService.class);
 
 	@Autowired
 	private LogFilterChain logFilterChain;
@@ -35,7 +35,7 @@ public class EsbService {
 	 * @return 返回报文
 	 */
 	public Datagram handle(Datagram datagram) {
-		logger.info("接收到报文:" + datagram);
+		LOGGER.info("接收到报文:" + datagram);
 		String messageCode = datagram.getDatagramHeader().getMessageCode();
 		try {
 			logFilterChain.doFilter(datagram);
@@ -43,7 +43,7 @@ public class EsbService {
 			logHandlers.get("h" + messageCode).handle(datagram.getDatagramBody(), datagram.getDatagramHeader().getSenderSystemCode());
 		} catch (Exception e) {
 
-			logger.warn("接受出错",e);
+			LOGGER.warn("接受出错",e);
 		}
 		return datagram;
 

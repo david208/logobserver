@@ -11,9 +11,9 @@ public class UserLogEsVo implements Serializable {
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-		public String fileContent;
-		public String fileName;
-		public String fileType;
+		private String fileContent;
+		private String fileName;
+		private String fileType;
 
 		public File() {
 		}

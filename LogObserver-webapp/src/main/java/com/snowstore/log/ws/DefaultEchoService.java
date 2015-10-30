@@ -21,15 +21,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultEchoService implements EchoService {
 
-	private final String echoFormat ="Did you say \"%s\"?";
+	private final static String FORMAT = "Did you say \"%s\"?";
 
-	/*public DefaultEchoService(String echoFormat) {
-		this.echoFormat = (echoFormat != null) ? echoFormat : "%s";
-	}*/
+	/*
+	 * public DefaultEchoService(String echoFormat) { this.echoFormat =
+	 * (echoFormat != null) ? echoFormat : "%s"; }
+	 */
 
 	@Override
 	public String getMessage(String message) {
-		return String.format(this.echoFormat, message);
+		return String.format(FORMAT, message);
 	}
 
 }

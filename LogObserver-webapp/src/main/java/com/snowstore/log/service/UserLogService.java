@@ -51,9 +51,9 @@ public class UserLogService {
 
 	private Lock lock = new ReentrantLock();
 
-	private static final Mapper mapper = new DozerBeanMapper();
+	private static final Mapper MAPPER = new DozerBeanMapper();
 
-	private static final Gson gson = new Gson();
+	private static final Gson GSON = new Gson();
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserLogService.class);
 
 	public final static String ANONYMOUS_USER = "anonymousUser";
@@ -72,10 +72,11 @@ public class UserLogService {
 
 	public Page<UserLog> findPage(final UserLogVo formVo) {
 		if (StringUtils.isEmpty(formVo.getSystemCode())) {
-			if (StringUtils.isEmpty(formVo.getKeyword()))
+			if (StringUtils.isEmpty(formVo.getKeyword())) {
 				return userLogRepository.findAll(formVo);
-			else
+			} else {
 				return userLogRepository.findByJsonStringLike(formVo.getKeyword(), formVo);
+			}
 		}
 		return userLogRepository.findByJsonStringLikeAndSystemCode(formVo.getKeyword(), formVo.getSystemCode(), formVo);
 
@@ -92,9 +93,9 @@ public class UserLogService {
 	 */
 	public void saveUserLog(D100001 d100001, String systemCode) {
 		UserLog userLog = new UserLog();
-		mapper.map(d100001, userLog);
+		MAPPER.map(d100001, userLog);
 		userLog.setSystemCode(systemCode);
-		userLog.setJsonString(gson.toJson(userLog));
+		userLog.setJsonString(GSON.toJson(userLog));
 		if (null != d100001.getFile()) {
 			FileInfo fileInfo = new FileInfo(d100001.getFile().getFileName(), d100001.getFile().getFileType());
 			fileInfoRepository.save(fileInfo);
@@ -121,7 +122,7 @@ public class UserLogService {
 	 */
 	public void saveUserLogEs(UserLogEsVo userLogVo) {
 		UserLogEs userLog = new UserLogEs();
-		mapper.map(userLogVo, userLog);
+		MAPPER.map(userLogVo, userLog);
 		userLog.setAppName(findAppNameBySystemCode(userLogVo.getAppName()));
 		userLog.setSystemCode(userLogVo.getAppName());
 		if (null != userLogVo.getFile()) {
@@ -162,8 +163,9 @@ public class UserLogService {
 
 	public String getUsername() {
 		Authentication currentuser = getAuthentication();
-		if (checkUser(currentuser) && currentuser.getPrincipal() instanceof LdapUserDetailsImpl)
+		if (checkUser(currentuser) && currentuser.getPrincipal() instanceof LdapUserDetailsImpl) {
 			return ((LdapUserDetailsImpl) currentuser.getPrincipal()).getUsername();
+		}
 		return "";
 	}
 
@@ -220,6 +222,10 @@ public class UserLogService {
 				systemCodeMapAppName.put("1003", "prometheus");
 				systemCodeMapAppName.put("1006", "logobserver");
 				systemCodeMapAppName.put("2013", "uc-cas");
+				systemCodeMapAppName.put("2018", "diana-console");
+				systemCodeMapAppName.put("2017", "mars-callback");
+				systemCodeMapAppName.put("2019", "diana-web");
+
 			}
 			lock.unlock();
 		}
@@ -229,8 +235,9 @@ public class UserLogService {
 	}
 
 	public Page<UserLogEs> findPageEs(final UserLogVo formVo) {
-		if (StringUtils.isNotEmpty(formVo.getKeyword()))
+		if (StringUtils.isNotEmpty(formVo.getKeyword())) {
 			return userLogEsRepository.findByFileId(formVo.getKeyword(), formVo);
+		}
 		return userLogEsRepository.findByFileFlagTrue(formVo);
 
 	}

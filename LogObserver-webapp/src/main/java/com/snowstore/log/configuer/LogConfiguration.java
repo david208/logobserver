@@ -19,10 +19,7 @@ import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.snowstore.log.configure.LogStashConfigure;
-/*import com.snowstore.hera.connector.monitor.impl.ZooL;
- */
 import com.snowstore.log.service.LogAuditor;
-//import com.snowstore.log.service.LogNofityObserver;
 import com.zendaimoney.hera.connector.EsbConnector;
 import com.zendaimoney.hera.connector.MessageReceiver;
 

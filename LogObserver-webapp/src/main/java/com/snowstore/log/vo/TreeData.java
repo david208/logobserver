@@ -5,7 +5,7 @@ import java.util.List;
 
 public class TreeData {
 
-	private List<NodeData> NodeDatas = new ArrayList<TreeData.NodeData>();
+	private List<NodeData> nodeDatas = new ArrayList<TreeData.NodeData>();
 
 	public static class NodeData {
 		private String text = "Parent 1";
@@ -49,11 +49,11 @@ public class TreeData {
 	}
 
 	public List<NodeData> getNodeDatas() {
-		return NodeDatas;
+		return nodeDatas;
 	}
 
 	public void setNodeDatas(List<NodeData> nodeDatas) {
-		NodeDatas = nodeDatas;
+		this.nodeDatas = nodeDatas;
 	}
 
 }

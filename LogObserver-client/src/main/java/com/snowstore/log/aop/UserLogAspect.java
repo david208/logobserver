@@ -94,15 +94,18 @@ public class UserLogAspect {
 				String remark = getRemark(jp);
 				FileInfo fileInfo = null;
 
-				if (getFileFlag(jp))
+				if (getFileFlag(jp)) {
 					fileInfo = getFileInfo(jp);
+				}
 				String args = getArgs(jp);
 				String signature = getSignature(jp);
 
 				if (null != remark && !remark.isEmpty()) {
 					UserInfo userInfo = userDetailDelegate.getUserInfo();
-					if (null != userInfo)
-						userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo, duration, signature);
+					if (null == userInfo) {
+						userInfo = UserInfo.getAnonymous();
+					}
+					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo, duration, signature);
 				}
 			} finally {
 			}
@@ -210,14 +213,17 @@ public class UserLogAspect {
 		String[] argNames = signature.getParameterNames();
 		StringBuilder args = new StringBuilder();
 		for (int i = 0; i < argValues.length; i++) {
-			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile)
+			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile) {
 				continue;
-			if (argValues[i] instanceof Object[])
+			}
+			if (argValues[i] instanceof Object[]) {
 				args.append(argNames[i] + ":" + Arrays.toString((Object[]) argValues[i]).toString());
-			else
+			} else {
 				args.append(argNames[i] + ":" + (argValues[i]).toString());
-			if (i < argValues.length - 1)
+			}
+			if (i < argValues.length - 1) {
 				args.append(",");
+			}
 		}
 		return args.toString();
 

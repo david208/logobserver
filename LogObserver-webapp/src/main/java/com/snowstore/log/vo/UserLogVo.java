@@ -6,7 +6,7 @@ public class UserLogVo extends PageFormVo {
 
 	private String keyword;
 
-	private Long refreshTime = 10000l;
+	private Long refreshTime = 10000L;
 	
 	private String systemCode;
 
