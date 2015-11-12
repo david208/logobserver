@@ -6,9 +6,10 @@ import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldIndex;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "userlog", type = "mapping")
+@Document(indexName = "user_action_log", type = "userlog")
 public class UserLogEs implements Serializable {
 
 	/**
@@ -18,20 +19,33 @@ public class UserLogEs implements Serializable {
 
 	@Id
 	protected String id;
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed)
 	private String remark;// 备注
+	@Field(type = FieldType.Long, index = FieldIndex.not_analyzed)
 	private Long userId;// 用户
+	@Field(type = FieldType.String, index = FieldIndex.analyzed)
 	private String arg;// 参数
+	@Field(type = FieldType.String, index = FieldIndex.analyzed)
 	private String result;// 结果
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed)
 	private String username;// 用户名
+	@Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed)
 	private boolean ucFlag;// uc标志
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed)
 	private String systemCode;//
 	@Field(type = FieldType.Date)
 	private Date logTime;
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed)
 	private String ip;
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed)
 	private String fileId;
+	@Field(type = FieldType.String, index = FieldIndex.not_analyzed)
 	private String appName;
+	@Field(type = FieldType.Boolean, index = FieldIndex.not_analyzed)
 	private boolean fileFlag = false;
+	@Field(type = FieldType.Long, index = FieldIndex.not_analyzed)
 	private long duration;
+	@Field(type = FieldType.String, index = FieldIndex.analyzed)
 	private String signature;
 
 	public String getRemark() {
