@@ -19,6 +19,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -27,6 +30,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.snowstore.log.annotation.UserLog;
+import com.snowstore.log.service.SystemCodeUtil;
 import com.snowstore.log.service.UserDetailDelegate;
 import com.snowstore.log.service.UserLogObservable;
 import com.snowstore.log.vo.FileInfo;
@@ -39,6 +43,14 @@ import com.snowstore.log.vo.UserInfo;
  */
 @Aspect
 public class UserLogAspect {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserLogAspect.class);
+
+	@Value("${log.userlog.debug:false}")
+	private Boolean debugFlag;
+
+	@Value("${system.code:}")
+	private String systemCode;
 
 	private UserLogObservable userLogObservable;
 
@@ -104,6 +116,10 @@ public class UserLogAspect {
 					UserInfo userInfo = userDetailDelegate.getUserInfo();
 					if (null == userInfo) {
 						userInfo = UserInfo.getAnonymous();
+					}
+					if (debugFlag) {
+						LOGGER.info("userLog --- remark: " + remark + " userId: " + userInfo.getUserId() + " arg: " + args + " result: " + String.valueOf(result) + " username: " + userInfo.getUserName() + " ucFlag: " + userInfo.isUcFlag() + " systemCode: " + systemCode
+								+ " logTime " + new Date() + " ip: " + getIp() + " appName " + SystemCodeUtil.findAppNameBySystemCode(systemCode) + " duration: " + duration + " signature :" + signature);
 					}
 					userLogObservable.notifyObserver(userInfo, remark, String.valueOf(result), args, new Date(), getIp(), fileInfo, duration, signature);
 				}
