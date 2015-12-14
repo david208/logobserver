@@ -67,7 +67,7 @@ public class UserLogService {
 	private GridFsOperations operations;
 	@Autowired
 	private FileInfoRepository fileInfoRepository;
-	@Autowired
+	@Autowired(required=false)
 	private UserLogEsRepository userLogEsRepository;
 
 	public Page<UserLog> findPage(final UserLogVo formVo) {
@@ -137,8 +137,12 @@ public class UserLogService {
 				LOGGER.error("保存文件出错", e);
 			}
 		}
-		userLogEsRepository.save(userLog);
+		esService.saveUserLog(userLog);
+		//userLogEsRepository.save(userLog);
 	}
+	
+	@Autowired
+	EsService esService;
 
 	/**
 	 * 
@@ -223,9 +227,11 @@ public class UserLogService {
 				systemCodeMapAppName.put("1006", "logobserver");
 				systemCodeMapAppName.put("2013", "uc-cas");
 				systemCodeMapAppName.put("2018", "diana-console");
-				systemCodeMapAppName.put("2017", "mars-callback");
+				systemCodeMapAppName.put("2020", "mars-callback");
 				systemCodeMapAppName.put("2019", "diana-web");
-
+				systemCodeMapAppName.put("2021", "sisyphus");
+				systemCodeMapAppName.put("2022", "spiders");
+				systemCodeMapAppName.put("2017", "hermes-tt");
 			}
 			lock.unlock();
 		}

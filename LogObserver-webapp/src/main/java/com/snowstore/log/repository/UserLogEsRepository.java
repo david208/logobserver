@@ -18,11 +18,10 @@ package com.snowstore.log.repository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 import com.snowstore.log.entity.UserLogEs;
 
-public interface UserLogEsRepository extends ElasticsearchRepository<UserLogEs, String> {
+public interface UserLogEsRepository/* extends ElasticsearchRepository<UserLogEs, String>*/ {
 
 	Page<UserLogEs> findByFileFlagTrue(Pageable pageable);
 

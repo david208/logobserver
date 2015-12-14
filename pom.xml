@@ -29,10 +29,10 @@
 		<assertj.version>1.5.0</assertj.version>
 		<mockito.version>1.9.5</mockito.version>
 		<powermock.version>1.5.4</powermock.version>
-		<jackson.version>2.3.1</jackson.version>
+		<jackson.version>2.6.2</jackson.version>
 		<commons-lang3.version>3.2.1</commons-lang3.version>
 		<cglib-nodep>2.2</cglib-nodep>
-		<guava.version>16.0.1</guava.version>
+		<guava.version>18.0</guava.version>
 		<joda-time.version>2.3</joda-time.version>
 		<dozer.version>5.4.0</dozer.version>
 		<sitemesh.version>2.4.2</sitemesh.version>
