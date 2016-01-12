@@ -56,7 +56,8 @@ public class BroadcastService {
 				LOGGER.error("发消息失败", ex);
 			}
 		}
-		webSocketSessions.removeAll(closedSessions);
+		if (null != closedSessions)
+			webSocketSessions.removeAll(closedSessions);
 	}
 
 }

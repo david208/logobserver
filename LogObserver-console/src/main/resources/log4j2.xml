@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration monitorInterval="60">
 	<Properties>
-		<Property name="appName">logObserver</Property>
+		<Property name="appName">logObserver-console</Property>
 		<Property name="logPath">/home/logs/${appName}</Property>
 	</Properties>
 	<Appenders>

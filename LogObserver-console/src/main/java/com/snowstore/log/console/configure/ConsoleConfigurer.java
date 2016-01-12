@@ -20,6 +20,7 @@ import org.eclipse.jetty.websocket.api.WebSocketBehavior;
 import org.eclipse.jetty.websocket.api.WebSocketPolicy;
 import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.MessageListener;
@@ -66,8 +67,9 @@ public class ConsoleConfigurer implements WebSocketConfigurer {
 	public ServerEndpointExporter serverEndpointExporter() {
 		return new ServerEndpointExporter();
 	}
-	
-	private static final String CHANNLE_NAME = "javalog:redis";
+
+	@Value("${channel.name}")
+	private String CHANNLE_NAME = "javalog:redis";
 
 	@Bean
 	public RedisMessageListenerContainer redisMessageListenerContainer() {
@@ -89,6 +91,5 @@ public class ConsoleConfigurer implements WebSocketConfigurer {
 		messageListenerAdapter.setSerializer(new JdkSerializationRedisSerializer());
 		return messageListenerAdapter;
 	}
-
 
 }
