@@ -16,6 +16,10 @@
 
 package com.snowstore.log.console.configure;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.eclipse.jetty.websocket.api.WebSocketBehavior;
 import org.eclipse.jetty.websocket.api.WebSocketPolicy;
 import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
@@ -23,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.listener.ChannelTopic;
@@ -74,6 +79,9 @@ public class ConsoleConfigurer implements WebSocketConfigurer {
 	@Bean
 	public RedisMessageListenerContainer redisMessageListenerContainer() {
 		RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+		SimpleAsyncTaskExecutor asyncTaskExecutor = new SimpleAsyncTaskExecutor("redisMessageListenerContainer-");
+		asyncTaskExecutor.setConcurrencyLimit(2);
+		container.setTaskExecutor(asyncTaskExecutor);
 		container.setConnectionFactory(redisConnectionFactory);
 		container.addMessageListener(messageListenerAdapter(), new ChannelTopic(CHANNLE_NAME));
 

@@ -29,7 +29,7 @@
                 <option value="ebo-hera1">ebo-hera1</option>
                 <option value="ebo-uc1">ebo-uc1</option>
                 <option value="jupiter-job1">jupiter-job1</option>
-                <option value="jupiter-web1">jupiter-web2</option>
+                <option value="jupiter-web1">jupiter-web1</option>
                 <option value="jupiter-web2">jupiter-web2</option>
                 <option value="mars1">mars1</option>
                 <option value="neptune1">neptune1</option>
@@ -45,10 +45,11 @@
 
         </form>
 
-        <div class="jumbotron" id="console">
+      
 
         </div>
     </div>
+      <div class="jumbotron" style=" background:#000; color:#fff; margin:20px;" id="console">
     <script src="/js/jquery-1.11.1.min.js"></script>
     <script src="js/sockjs.min.js"></script>
     <script type="text/javascript">
@@ -102,7 +103,7 @@
         p.appendChild(document.createTextNode(message));
         console.appendChild(p);
         console.scrollTop = console.scrollHeight;
-        while (console.childNodes.length > 100) {
+        while (console.childNodes.length > 1000) {
             console.removeChild(console.firstChild);
         }
 
