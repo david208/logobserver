@@ -220,6 +220,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<finalName>LogObserver-webapp</finalName>
+		<finalName>LogObserver-console</finalName>
 	</build>
 </project>
