@@ -16,6 +16,8 @@
     <span class="glyphicon glyphicon-user"></span>${uname!""},您好
         <a href="/monitor" class="btn">
             <span class="glyphicon glyphicon-signal "></span>异常监控</a>
+         <a href="/console" class="btn">
+            <span class="glyphicon glyphicon-console"></span>跟踪</a>
         <a href="/logout" class="btn">
             <span class="glyphicon glyphicon-off "></span>退出</a>
     </div>

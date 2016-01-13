@@ -4,12 +4,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
-    <script src="/js/jquery-1.11.1.min.js"></script>
+    <script src="${rc.contextPath}/js/jquery-1.11.1.min.js"></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-    <script src="/js/bootstrap.min.js"></script>
+    <script src="${rc.contextPath}/js/bootstrap.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
@@ -50,7 +50,7 @@
                                 <div class="alert alert-danger" role="alert">
                                     <span class="glyphicon glyphicon-warning-sign"></span>用户名密码不正确</div>
                             </#if>
-                            <form name="form" action="/login" method="post">
+                            <form name="form" action="${rc.contextPath}/login" method="post">
 
                                 <fieldset>
                                     <div class="form-group">

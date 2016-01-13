@@ -16,6 +16,7 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import com.snowstore.log.configure.LogStashConfigure;
@@ -26,6 +27,7 @@ import com.zendaimoney.hera.connector.MessageReceiver;
 @Configuration
 @EnableConfigurationProperties(EsbSettings.class)
 @EnableMongoAuditing
+@EnableRedisHttpSession
 @ComponentScan(basePackages = "com.snowstore.log", excludeFilters = { @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, value = LogStashConfigure.class) })
 public class LogConfiguration {
 

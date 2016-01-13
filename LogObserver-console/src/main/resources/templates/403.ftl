@@ -4,7 +4,7 @@
 <head>
     <title>日志中心</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
 
 </head>
 
@@ -15,7 +15,7 @@
 				<h2><strong>错误403</strong></h2>
 			</div>
 			<div class="error_content clearfix">
-					<img src="/image/error_403.png" class="img-responsive" />
+					<img src="${rc.contextPath}/image/error_403.png" class="img-responsive" />
 					<div class="error_sorry" style="color:red">
 						<h1><strong>sorry 你访问的页面需要更高权限</strong></h1>
 					</div>

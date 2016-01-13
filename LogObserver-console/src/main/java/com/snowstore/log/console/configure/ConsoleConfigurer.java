@@ -16,10 +16,6 @@
 
 package com.snowstore.log.console.configure;
 
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.eclipse.jetty.websocket.api.WebSocketBehavior;
 import org.eclipse.jetty.websocket.api.WebSocketPolicy;
 import org.eclipse.jetty.websocket.server.WebSocketServerFactory;
@@ -34,11 +30,11 @@ import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
 import org.springframework.web.socket.server.jetty.JettyRequestUpgradeStrategy;
-import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
@@ -46,7 +42,11 @@ import com.snowstore.log.console.service.LogWsHandler;
 
 @Configuration
 @EnableWebSocket
+@EnableRedisHttpSession
 public class ConsoleConfigurer implements WebSocketConfigurer {
+
+	@Value("${server.context-path}")
+	private String contextPath;
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -68,10 +68,10 @@ public class ConsoleConfigurer implements WebSocketConfigurer {
 		return new LogWsHandler();
 	}
 
-	@Bean
-	public ServerEndpointExporter serverEndpointExporter() {
-		return new ServerEndpointExporter();
-	}
+	/*
+	 * @Bean public ServerEndpointExporter serverEndpointExporter() { return new
+	 * ServerEndpointExporter(); }
+	 */
 
 	@Value("${channel.name}")
 	private String CHANNLE_NAME = "javalog:redis";

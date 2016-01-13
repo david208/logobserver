@@ -5,7 +5,7 @@
     <title>日志跟踪</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
 
 </head>
 
@@ -13,13 +13,15 @@
     <div class="container">
         <div align="right">
             <span class="glyphicon glyphicon-user"></span>${uname!""},您好
-            <a href="/logout" class="btn">
+             <a href="/" class="btn">
+                <span class="glyphicon glyphicon-off "></span>主页</a>
+            <a href="${rc.contextPath}/logout" class="btn">
                 <span class="glyphicon glyphicon-off "></span>退出</a>
         </div>
         <form class="form-inline">
             <select id="destination" class="form-control" autofocus>
                 <option value="">系统名</option>
-                <option value="apollo1">apollo1</option>
+                <option value="apollo">apollo1</option>
                 <option value="atlantis1">atlantis1</option>
                 <option value="atlantis2">atlantis2</option>
                 <option value="diana-console1">diana-console1</option>
@@ -50,8 +52,8 @@
         </div>
     </div>
       <div class="jumbotron" style=" background:#000; color:#fff; margin:20px;" id="console">
-    <script src="/js/jquery-1.11.1.min.js"></script>
-    <script src="js/sockjs.min.js"></script>
+    <script src="${rc.contextPath}/js/jquery-1.11.1.min.js"></script>
+    <script src="${rc.contextPath}/js/sockjs.min.js"></script>
     <script type="text/javascript">
     var ws = null;
 
@@ -67,7 +69,7 @@
             alert("请选择系统");
             return false;
         }
-        ws = new SockJS("/tail");
+        ws = new SockJS("${rc.contextPath}/tail");
         ws.onopen = function() {
             setConnected(true);
             ws.send(destination);

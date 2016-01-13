@@ -20,7 +20,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import com.snowstore.log.service.CustomLoginUrlAuthenticationEntryPoint;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -28,6 +31,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecureConfig extends WebSecurityConfigurerAdapter {
 	@Value("${ldap.group}")
 	private String ldapGroup;
+
+	@Bean
+	public LoginUrlAuthenticationEntryPoint loginUrlAuthenticationEntryPoint() {
+		return new CustomLoginUrlAuthenticationEntryPoint("/login");
+	}
 
 	@Bean
 	public Md5PasswordEncoder passwordEncoder() {
@@ -46,8 +54,8 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.httpBasic().disable();
-		http.authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**", "/image/**", "/403").permitAll().anyRequest().hasAuthority(ldapGroup).and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
+		http.httpBasic().authenticationEntryPoint(loginUrlAuthenticationEntryPoint()).and().authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**", "/image/**", "/403").permitAll().anyRequest().hasAuthority(ldapGroup).and().formLogin().loginPage("/login")
+				.defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandlerImpl());
 		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 	}
