@@ -21,7 +21,7 @@
         <form class="form-inline">
             <select id="destination" class="form-control" autofocus>
                 <option value="">系统名</option>
-                <option value="apollo">apollo1</option>
+                <option value="apollo1">apollo1</option>
                 <option value="atlantis1">atlantis1</option>
                 <option value="atlantis2">atlantis2</option>
                 <option value="diana-console1">diana-console1</option>
