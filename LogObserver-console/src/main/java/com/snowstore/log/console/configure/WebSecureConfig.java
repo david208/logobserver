@@ -21,7 +21,6 @@ import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @SuppressWarnings("deprecation")
 @Configuration
@@ -52,7 +51,7 @@ public class WebSecureConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/js/**", "/css/**", "/style/**", "/fonts/**", "/image/**", "/403").permitAll().anyRequest().hasAuthority(ldapGroup)
 				.and().formLogin().loginPage("/login").defaultSuccessUrl("/", true).failureUrl("/login?error").permitAll();
 		http.exceptionHandling().accessDeniedHandler(accessDeniedHandlerImpl());
-		http.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+		http.logout().disable()/*.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))*/;
 	}
 
 	@Configuration

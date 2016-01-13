@@ -15,8 +15,8 @@
             <span class="glyphicon glyphicon-user"></span>${uname!""},您好
              <a href="/" class="btn">
                 <span class="glyphicon glyphicon-off "></span>主页</a>
-            <a href="${rc.contextPath}/logout" class="btn">
-                <span class="glyphicon glyphicon-off "></span>退出</a>
+         <!--   <a href="${rc.contextPath}/logout" class="btn">
+                <span class="glyphicon glyphicon-off "></span>退出</a>-->
         </div>
         <form class="form-inline">
             <select id="destination" class="form-control" autofocus>
