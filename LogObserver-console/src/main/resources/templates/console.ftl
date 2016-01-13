@@ -73,14 +73,14 @@
         ws.onopen = function() {
             setConnected(true);
             ws.send(destination);
-            log('开始跟踪');
+            log('开始跟踪'+destination);
         };
         ws.onmessage = function(event) {
             log(event.data);
         };
         ws.onclose = function() {
             setConnected(false);
-            log('结束跟踪');
+            log('结束跟踪'+destination);
         };
     }
 
@@ -128,6 +128,13 @@
             clearAll();
         }
     });
+    
+    
+   $(function() {
+		$("#destination").change(function() {
+		stop();
+		});
+		});
     </script>
 </body>
 
