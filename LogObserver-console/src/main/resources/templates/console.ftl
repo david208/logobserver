@@ -51,7 +51,10 @@
 
         </div>
     </div>
-      <div class="jumbotron" style=" background:#000; color:#fff; margin:20px;" id="console">
+      <div class="jumbotron" style=" background:#000; color:#fff; margin:20px;" >
+      <div  style=" background:#000; color:#fff; margin:20px;" id="console">
+     </div>
+     </div>
     <script src="${rc.contextPath}/js/jquery-1.11.1.min.js"></script>
     <script src="${rc.contextPath}/js/sockjs.min.js"></script>
     <script type="text/javascript">
