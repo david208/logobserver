@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -47,8 +48,10 @@ public class BroadcastService {
 		if (null == webSocketSessions)
 			return;
 		Set<WebSocketSession> closedSessions = null;
-		for (WebSocketSession session : webSocketSessions) {
+		if (!CollectionUtils.isEmpty(webSocketSessions)) {
 			closedSessions = new HashSet<WebSocketSession>();
+		}
+		for (WebSocketSession session : webSocketSessions) {
 			try {
 				sendMessage(session, message);
 			} catch (Exception ex) {
@@ -56,7 +59,7 @@ public class BroadcastService {
 				LOGGER.error("发消息失败", ex);
 			}
 		}
-		if (null != closedSessions)
+		if (!CollectionUtils.isEmpty(closedSessions))
 			webSocketSessions.removeAll(closedSessions);
 	}
 

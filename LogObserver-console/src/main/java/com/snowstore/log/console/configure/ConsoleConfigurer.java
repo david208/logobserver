@@ -50,7 +50,7 @@ public class ConsoleConfigurer implements WebSocketConfigurer {
 
 	@Override
 	public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-		registry.addHandler(echoWebSocketHandler(), "/tail").addInterceptors(new HttpSessionHandshakeInterceptor()).setHandshakeHandler(handshakeHandler()).withSockJS().setClientLibraryUrl("js/sockjs.min.js");
+		registry.addHandler(echoWebSocketHandler(), "/tail").setAllowedOrigins("http://localhost","http://log.jlfex.com").addInterceptors(new HttpSessionHandshakeInterceptor()).setHandshakeHandler(handshakeHandler()).withSockJS().setClientLibraryUrl("js/sockjs.min.js");
 	}
 
 	@Bean
