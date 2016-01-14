@@ -1,11 +1,13 @@
 package com.snowstore.log.console.service;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.jetty.util.ConcurrentHashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,6 +19,8 @@ import org.springframework.web.socket.WebSocketSession;
 public class BroadcastService {
 
 	private final Lock lock = new ReentrantLock();
+
+	private final ConcurrentHashSet<String> systemNames = new ConcurrentHashSet<String>();
 
 	private final ConcurrentHashMap<String, Set<WebSocketSession>> systemSessionListener = new ConcurrentHashMap<String, Set<WebSocketSession>>();
 
@@ -44,6 +48,10 @@ public class BroadcastService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BroadcastService.class);
 
 	public synchronized void broadcast(String message, String systemCode) {
+		systemNames.add(systemCode);
+		/*if (changed) {
+			sendChangeMessage("**logchange**:" + systemCode);
+		}*/
 		Set<WebSocketSession> webSocketSessions = systemSessionListener.get(systemCode);
 		if (null == webSocketSessions)
 			return;
@@ -54,6 +62,7 @@ public class BroadcastService {
 		for (WebSocketSession session : webSocketSessions) {
 			try {
 				sendMessage(session, message);
+
 			} catch (Exception ex) {
 				closedSessions.add(session);
 				LOGGER.error("发消息失败", ex);
@@ -61,6 +70,27 @@ public class BroadcastService {
 		}
 		if (!CollectionUtils.isEmpty(closedSessions))
 			webSocketSessions.removeAll(closedSessions);
+		
+	}
+
+	public void sendChangeMessage(String message) {
+
+		Iterator<Set<WebSocketSession>> iterator = systemSessionListener.values().iterator();
+		while (iterator.hasNext()) {
+			Set<WebSocketSession> set = iterator.next();
+			for (WebSocketSession session : set) {
+				try {
+					sendMessage(session, message);
+				} catch (Exception ex) {
+					LOGGER.error("发消息失败", ex);
+				}
+			}
+		}
+
+	}
+
+	public Set<String> getSystemNames() {
+		return this.systemNames;
 	}
 
 }

@@ -21,13 +21,16 @@
         <form class="form-inline">
             <select id="destination" class="form-control" autofocus>
                 <option value="">系统名</option>
-                <option value="apollo1">apollo1</option>
+                <#list systemNames as item>
+                <option value="${item}">${item}</option>
+                </#list>
+         <#--       <option value="apollo1">apollo1</option>
                 <option value="atlantis1">atlantis1</option>
                 <option value="atlantis2">atlantis2</option>
                 <option value="diana-console1">diana-console1</option>
                 <option value="diana-web1">diana-web1</option>
                 <option value="ebo-athene1">ebo-athene1</option>
-                <option value="ebo-crm1">ebo-athene1</option>
+                <option value="ebo-crm1">ebo-crm1</option>
                 <option value="ebo-hera1">ebo-hera1</option>
                 <option value="ebo-uc1">ebo-uc1</option>
                 <option value="jupiter-job1">jupiter-job1</option>
@@ -36,7 +39,7 @@
                 <option value="mars1">mars1</option>
                 <option value="neptune1">neptune1</option>
                 <option value="tpp1">tpp1</option>
-                <option value="trident1">trident1</option>
+                <option value="trident1">trident1</option> -->
             </select>
 
             <div class="btn-group" role="group" aria-label="...">
@@ -99,6 +102,10 @@
         document.getElementById('console').innerHTML = "";
     }
 
+    function updateSelect(message){
+    var s = $("#destination");
+    s.append("<option value=message>message</option>");
+    }
 
     function log(message) {
 
