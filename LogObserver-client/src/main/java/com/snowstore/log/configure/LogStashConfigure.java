@@ -24,7 +24,7 @@ public class LogStashConfigure {
 	@Value("${log.broker.url:172.16.200.134}")
 	private String logBrokerUrl ;
 
-	@Value("${system.code:}")
+	@Value("${snowstore.esb.system.self.code:}")
 	private String systemCode;
 
 	@Autowired(required=false)
