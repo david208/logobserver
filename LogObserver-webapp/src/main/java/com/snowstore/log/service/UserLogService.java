@@ -232,6 +232,9 @@ public class UserLogService {
 				systemCodeMapAppName.put("2021", "sisyphus");
 				systemCodeMapAppName.put("2022", "spiders");
 				systemCodeMapAppName.put("2017", "hermes-tt");
+				systemCodeMapAppName.put("2023", "nox-web");
+				systemCodeMapAppName.put("2024", "nox-console");
+				systemCodeMapAppName.put("2025", "nox-web-html5");
 			}
 			lock.unlock();
 		}

@@ -38,6 +38,10 @@ public class SystemCodeUtil {
 		systemCodeMapAppName.put("2018", "diana-console");
 		systemCodeMapAppName.put("2017", "mars-callback");
 		systemCodeMapAppName.put("2019", "diana-web");
+		systemCodeMapAppName.put("2023", "nox-web");
+		systemCodeMapAppName.put("2024", "nox-console");
+		systemCodeMapAppName.put("2025", "nox-web-html5");
+		
 	}
 
 	public static String findAppNameBySystemCode(String systemCode) {
