@@ -5,7 +5,12 @@
     <title>日志中心</title>
     <!-- 新 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" />
-
+    <script src="${rc.contextPath}/js/jquery-1.11.1.min.js"></script>
+    
+    <script src="${rc.contextPath}/js/jquery.cookie.js"></script>
+  <script>
+    $.cookie('Hm_lvt_4174b42be17806794feef4d1a53e30d5', '', { expires: -1,domain:'.jlfex.com'}); 
+    </script>
 </head>
 
 <body height="100%">

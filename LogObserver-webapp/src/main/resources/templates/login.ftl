@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="${rc.contextPath}/css/bootstrap.min.css" />
     <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
     <script src="${rc.contextPath}/js/jquery-1.11.1.min.js"></script>
+    <script src="${rc.contextPath}/js/jquery.cookie.js"></script>
 
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
     <script src="${rc.contextPath}/js/bootstrap.min.js"></script>
@@ -32,6 +33,9 @@
         margin-top:5%;
     }
     </style>
+    <script>
+    $.cookie('Hm_lvt_4174b42be17806794feef4d1a53e30d5', '', { expires: -1,domain:'.jlfex.com'}); 
+    </script>
 </head>
 
 <body>
