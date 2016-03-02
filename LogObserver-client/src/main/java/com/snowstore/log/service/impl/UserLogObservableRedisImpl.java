@@ -16,7 +16,7 @@ import com.snowstore.log.vo.UserLogEsVo;
 public class UserLogObservableRedisImpl implements UserLogObservable {
 
 	@Autowired
-	private RedisTemplate<String, UserLogEsVo> redisTemplate;
+	private RedisTemplate<String, UserLogEsVo> redisTemplate4log;
 
 	static final String CHANNEL_NAME = "userLog";
 
@@ -46,7 +46,7 @@ public class UserLogObservableRedisImpl implements UserLogObservable {
 		esVo.setUsername(userInfo.getUserName());
 		esVo.setDuration(duration);
 		esVo.setSignature(signature);
-		cachedThreadPool.submit(new LogTask(esVo, fileInfo, redisTemplate));
+		cachedThreadPool.submit(new LogTask(esVo, fileInfo, redisTemplate4log));
 	}
 
 }

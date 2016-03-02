@@ -39,7 +39,7 @@ public class LogStashConfigure {
 	}
 
 	@Bean
-	public RedisTemplate<String, UserLogEsVo> redisTemplate() {
+	public RedisTemplate<String, UserLogEsVo> redisTemplate4Log() {
 		RedisTemplate<String, UserLogEsVo> redisTemplate = new RedisTemplate<String, UserLogEsVo>();
 		redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());

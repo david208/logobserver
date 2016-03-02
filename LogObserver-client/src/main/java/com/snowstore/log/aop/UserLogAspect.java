@@ -49,7 +49,7 @@ public class UserLogAspect {
 	@Value("${log.userlog.debug:false}")
 	private Boolean debugFlag;
 
-	@Value("${system.code:}")
+	@Value("${snowstore.esb.system.self.code:}")
 	private String systemCode;
 
 	private UserLogObservable userLogObservable;
