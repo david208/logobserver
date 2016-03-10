@@ -3,11 +3,7 @@ package com.snowstore.log.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.activemq.protobuf.BufferInputStream;
 import org.apache.commons.lang3.StringUtils;
@@ -29,7 +25,6 @@ import org.springframework.security.ldap.userdetails.LdapUserDetailsImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
-import org.springframework.util.CollectionUtils;
 
 import com.google.common.io.ByteStreams;
 import com.google.gson.Gson;
@@ -49,8 +44,6 @@ import com.snowstore.log.vo.UserLogVo;
 @Transactional
 public class UserLogService {
 
-	private Lock lock = new ReentrantLock();
-
 	private static final Mapper MAPPER = new DozerBeanMapper();
 
 	private static final Gson GSON = new Gson();
@@ -67,7 +60,7 @@ public class UserLogService {
 	private GridFsOperations operations;
 	@Autowired
 	private FileInfoRepository fileInfoRepository;
-	@Autowired(required=false)
+	@Autowired(required = false)
 	private UserLogEsRepository userLogEsRepository;
 
 	public Page<UserLog> findPage(final UserLogVo formVo) {
@@ -113,6 +106,9 @@ public class UserLogService {
 		return String.valueOf(operations.store(new BufferInputStream(content), fileInfo.getFileName(), fileInfo).getId());
 	}
 
+	@Autowired
+	SystemMapping systemMapping;
+
 	/**
 	 * 保存用户操作日志ES
 	 * 
@@ -123,7 +119,7 @@ public class UserLogService {
 	public void saveUserLogEs(UserLogEsVo userLogVo) {
 		UserLogEs userLog = new UserLogEs();
 		MAPPER.map(userLogVo, userLog);
-		userLog.setAppName(findAppNameBySystemCode(userLogVo.getAppName()));
+		userLog.setAppName(systemMapping.findAppNameBySystemCode(userLogVo.getAppName()));
 		userLog.setSystemCode(userLogVo.getAppName());
 		if (null != userLogVo.getFile()) {
 			FileInfo fileInfo = new FileInfo(userLogVo.getFile().getFileName(), userLogVo.getFile().getFileType());
@@ -138,11 +134,20 @@ public class UserLogService {
 			}
 		}
 		esService.saveUserLog(userLog);
-		//userLogEsRepository.save(userLog);
+		// userLogEsRepository.save(userLog);
 	}
-	
+
 	@Autowired
 	EsService esService;
+
+	public List<String> findBySystemCodeGroup() {
+		GroupByResults<UserLog> results = mongoTemplate.group("userLog", GroupBy.key("systemCode").initialDocument("{ count: 0 }").reduceFunction("function(doc, prev) { prev.count += 1 }"), UserLog.class);
+		List<String> list = new ArrayList<String>();
+		for (Object basicDBObject : ((BasicDBList) results.getRawResults().get("retval")).toArray()) {
+			list.add(((BasicDBObject) basicDBObject).getString("systemCode"));
+		}
+		return list;
+	}
 
 	/**
 	 * 
@@ -183,63 +188,6 @@ public class UserLogService {
 
 	private Authentication getAuthentication() {
 		return SecurityContextHolder.getContext().getAuthentication();
-
-	}
-
-	public List<String> findBySystemCodeGroup() {
-		GroupByResults<UserLog> results = mongoTemplate.group("userLog", GroupBy.key("systemCode").initialDocument("{ count: 0 }").reduceFunction("function(doc, prev) { prev.count += 1 }"), UserLog.class);
-		List<String> list = new ArrayList<String>();
-		for (Object basicDBObject : ((BasicDBList) results.getRawResults().get("retval")).toArray()) {
-			list.add(((BasicDBObject) basicDBObject).getString("systemCode"));
-		}
-		return list;
-	}
-
-	private final Map<String, String> systemCodeMapAppName = new HashMap<String, String>();
-
-	private String findAppNameBySystemCode(String systemCode) {
-		if (CollectionUtils.isEmpty(systemCodeMapAppName)) {
-			lock.lock();
-			if (CollectionUtils.isEmpty(systemCodeMapAppName)) {
-				systemCodeMapAppName.put("1005", "apollo");
-				systemCodeMapAppName.put("2003", "fortune");
-				systemCodeMapAppName.put("2006", "crm");
-				systemCodeMapAppName.put("2007", "uc");
-				systemCodeMapAppName.put("1007", "trident");
-				systemCodeMapAppName.put("2002", "ares");
-				systemCodeMapAppName.put("2010", "as");
-				systemCodeMapAppName.put("2014", "jupiter");
-				systemCodeMapAppName.put("2012", "juno");
-				systemCodeMapAppName.put("1009", "atlantis");
-				systemCodeMapAppName.put("1008", "neptune");
-				systemCodeMapAppName.put("2004", "thalassa");
-				systemCodeMapAppName.put("1004", "mars");
-				systemCodeMapAppName.put("2016", "athene");
-				systemCodeMapAppName.put("2009", "vesta");
-				systemCodeMapAppName.put("2009", "vesta");
-				systemCodeMapAppName.put("2015", "credit");
-				systemCodeMapAppName.put("2010", "as");
-				systemCodeMapAppName.put("2008", "tpp");
-				systemCodeMapAppName.put("1002", "hera");
-				systemCodeMapAppName.put("2001", "pluto");
-				systemCodeMapAppName.put("1010", "terra");
-				systemCodeMapAppName.put("1003", "prometheus");
-				systemCodeMapAppName.put("1006", "logobserver");
-				systemCodeMapAppName.put("2013", "uc-cas");
-				systemCodeMapAppName.put("2018", "diana-console");
-				systemCodeMapAppName.put("2020", "mars-callback");
-				systemCodeMapAppName.put("2019", "diana-web");
-				systemCodeMapAppName.put("2021", "sisyphus");
-				systemCodeMapAppName.put("2022", "spiders");
-				systemCodeMapAppName.put("2017", "hermes-tt");
-				systemCodeMapAppName.put("2023", "nox-web");
-				systemCodeMapAppName.put("2024", "nox-console");
-				systemCodeMapAppName.put("2025", "nox-web-html5");
-			}
-			lock.unlock();
-		}
-
-		return systemCodeMapAppName.get(StringUtils.substring(systemCode, 0, 4));
 
 	}
 

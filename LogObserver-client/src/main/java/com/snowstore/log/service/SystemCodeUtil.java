@@ -41,6 +41,12 @@ public class SystemCodeUtil {
 		systemCodeMapAppName.put("2023", "nox-web");
 		systemCodeMapAppName.put("2024", "nox-console");
 		systemCodeMapAppName.put("2025", "nox-web-html5");
+		systemCodeMapAppName.put("2026", "poseidon-mobile");
+		systemCodeMapAppName.put("3003", "cupid");
+		systemCodeMapAppName.put("3002", "venus");
+		systemCodeMapAppName.put("2020", "mars-callback");
+		systemCodeMapAppName.put("2011", "tpp-job");
+	
 		
 	}
 
