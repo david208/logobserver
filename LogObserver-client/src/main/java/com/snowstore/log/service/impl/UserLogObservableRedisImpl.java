@@ -4,9 +4,9 @@ import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.util.Base64Utils;
 
 import com.snowstore.log.service.UserLogObservable;
 import com.snowstore.log.vo.FileInfo;
@@ -69,7 +69,7 @@ class LogTask implements Runnable {
 	public void run() {
 		if (null != this.fileInfo) {
 			UserLogEsVo.File file = new UserLogEsVo.File();
-			file.setFileContent(Base64.encodeBase64String(fileInfo.getContent()));
+			file.setFileContent(Base64Utils.encodeToString(fileInfo.getContent()));
 			file.setFileName(fileInfo.getFileName());
 			file.setFileType(fileInfo.getContentType());
 			esVo.setFile(file);

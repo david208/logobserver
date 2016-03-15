@@ -8,9 +8,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.snowstore.hera.connector.vo.uc.vo.Staff;
 import com.snowstore.log.service.UserDetailDelegate;
 import com.snowstore.log.vo.UserInfo;
-import com.zendaimoney.uc.rmi.vo.Staff;
 
 /**
  * @description: 用户信息获取

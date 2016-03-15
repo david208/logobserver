@@ -2,7 +2,7 @@ package com.snowstore.log.service.impl;
 
 import java.util.Date;
 
-import org.apache.commons.codec.binary.Base64;
+import org.springframework.util.Base64Utils;
 
 import com.snowstore.hera.connector.vo.logObserver.D100001;
 import com.snowstore.hera.connector.vo.logObserver.D100001.File;
@@ -49,7 +49,7 @@ public class UserLogObservableImpl implements UserLogObservable {
 		d100001.setSignature(signature);
 		if (null != fileInfo) {
 			File file = new File();
-			file.setFileContent(Base64.encodeBase64String(fileInfo.getContent()));
+			file.setFileContent(Base64Utils.encodeToString(fileInfo.getContent()));
 			file.setFileName(fileInfo.getFileName());
 			file.setFileType(fileInfo.getContentType());
 			d100001.setFile(file);

@@ -20,13 +20,7 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-web</artifactId>
-			<version>3.1.0.RELEASE</version><!--$NO-MVN-MAN-VER$ -->
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-web</artifactId>
-				</exclusion>
-			</exclusions>
+			<version>3.1.0.RELEASE</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
 		<dependency>
 			<groupId>com.zendaimoney.hera</groupId>
@@ -41,28 +35,13 @@
 			<artifactId>javax.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
-			<groupId>com.zendaimoney.uc</groupId>
-			<artifactId>uc-client</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>com.zendaimoney.hera</groupId>
-					<artifactId>hera-connector</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.logging.log4j</groupId>
-					<artifactId>log4j</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.freemarker</groupId>
-					<artifactId>freemarker</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.security</groupId>
-					<artifactId>*</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>com.zendaimoney.hera</groupId>
+			<artifactId>hera-connector</artifactId>
+			<version>1.1.1-SNAPSHOT</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+
 
 		<!-- PERSISTENCE end -->
 		<!-- TEST begin -->
@@ -130,6 +109,11 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
 		</dependency>
 		<dependency>
 			<groupId>redis.clients</groupId>
