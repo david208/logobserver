@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -229,7 +230,7 @@ public class UserLogAspect {
 		String[] argNames = signature.getParameterNames();
 		StringBuilder args = new StringBuilder();
 		for (int i = 0; i < argValues.length; i++) {
-			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile) {
+			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile || argValues[i] instanceof HttpSession) {
 				continue;
 			}
 			if (argValues[i] instanceof Object[]) {
