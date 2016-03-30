@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,9 +56,17 @@ public class UserLogAspect {
 
 	private UserLogObservable userLogObservable;
 
-	private UserDetailDelegate<UserDetails> userDetailDelegate;
+	private UserDetailDelegate<? extends UserDetails> userDetailDelegate;
 
-	public UserDetailDelegate<UserDetails> getUserDetailDelegate() {
+	public UserLogAspect() {
+	}
+
+	public UserLogAspect(UserLogObservable userLogObservable, UserDetailDelegate<? extends UserDetails> userDetailDelegate) {
+		this.userDetailDelegate = userDetailDelegate;
+		this.userLogObservable = userLogObservable;
+	}
+
+	public UserDetailDelegate<? extends UserDetails> getUserDetailDelegate() {
 		return userDetailDelegate;
 	}
 
@@ -230,7 +239,8 @@ public class UserLogAspect {
 		String[] argNames = signature.getParameterNames();
 		StringBuilder args = new StringBuilder();
 		for (int i = 0; i < argValues.length; i++) {
-			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile || argValues[i] instanceof HttpSession) {
+			if (null == argValues[i] || argValues[i] instanceof Model || argValues[i] instanceof ModelMap || argValues[i] instanceof ServletRequest || argValues[i] instanceof ServletResponse || argValues[i] instanceof MultipartFile || argValues[i] instanceof HttpSession
+					|| argValues[i] instanceof Errors) {
 				continue;
 			}
 			if (argValues[i] instanceof Object[]) {
