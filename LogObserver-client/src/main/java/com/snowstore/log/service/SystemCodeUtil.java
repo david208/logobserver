@@ -46,6 +46,7 @@ public class SystemCodeUtil {
 		systemCodeMapAppName.put("3002", "venus");
 		systemCodeMapAppName.put("2020", "mars-callback");
 		systemCodeMapAppName.put("2011", "tpp-job");
+		systemCodeMapAppName.put("2028", "poseidon-cashier");
 	
 		
 	}
